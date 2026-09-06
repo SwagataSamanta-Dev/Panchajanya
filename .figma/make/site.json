@@ -1,0 +1,11 @@
+{
+  "title": "Panchajanya",
+  "description": "Showcases handmade sustainable canvas bags with detailed product info and eco-friendly benefits, helping users find stylish, earth-conscious accessories.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

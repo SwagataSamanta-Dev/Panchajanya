@@ -1,0 +1,36 @@
+# ----------------------------------------------------------------------
+# Panchajanya Web Server Configuration (Apache / LiteSpeed)
+# ----------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 1. Allow existing files and directories to be served directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 2. Exempt backend API, Admin Portal, and Media Uploads from SPA routing
+    RewriteCond %{REQUEST_URI} ^/(api|admin|uploads)/ [NC]
+    RewriteRule ^ - [L]
+
+    # 3. Route all other storefront URLs (SPA) to index.html
+    RewriteRule ^ index.html [QSA,L]
+</IfModule>
+
+# Caching for Production Static Assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
