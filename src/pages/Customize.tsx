@@ -50,7 +50,7 @@ const labelStyle: React.CSSProperties = {
 function StepBar({ current }: { current: Step }) {
   const ci = STEPS.indexOf(current)
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: '3rem', overflowX: 'auto' }}>
+    <div className="no-scrollbar flex items-center gap-0 mb-8 md:mb-12 overflow-x-auto pb-2">
       {STEPS.filter(s => s !== 'confirm').map((s, i) => {
         const si = STEPS.indexOf(s)
         const done = si < ci
@@ -158,7 +158,7 @@ export default function Customize() {
 
   // Sidebar summary
   const Summary = () => (
-    <div style={{ backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.1)`, padding: '2rem', position: 'sticky', top: '88px', alignSelf: 'start' }}>
+    <div className="p-6 sm:p-8 lg:sticky lg:top-[88px] w-full" style={{ backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.1)`, alignSelf: 'start' }}>
       <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.2rem', color: C.maroon, margin: '0 0 1.5rem' }}>Your Custom Bag</p>
       {[
         ['Shape',   selectedSil?.label    || '—'],
@@ -216,8 +216,8 @@ export default function Customize() {
     const whatsappMsg = encodeURIComponent(whatsappLines.join('\n'))
 
     return (
-      <div style={{ paddingTop: '68px', minHeight: '100vh', backgroundColor: C.fog, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4rem 1.5rem' }}>
-        <div style={{ textAlign: 'center', maxWidth: '580px', width: '100%', backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.12)`, padding: '3.5rem 2.5rem', boxShadow: '0 4px 20px rgba(117,24,40,0.06)' }}>
+      <div style={{ paddingTop: '68px', minHeight: '100vh', backgroundColor: C.fog, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 1rem' }}>
+        <div className="text-center max-w-[580px] w-full p-6 sm:p-10 md:p-14" style={{ backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.12)`, boxShadow: '0 4px 20px rgba(117,24,40,0.06)' }}>
           <div style={{ width: '68px', height: '68px', borderRadius: '50%', backgroundColor: C.maroon, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={C.parchment} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
@@ -289,12 +289,12 @@ export default function Customize() {
     <div style={{ paddingTop: '68px', minHeight: '100vh', backgroundColor: C.fog, position: 'relative', overflow: 'hidden' }}>
       <img src={logoImg} alt="" aria-hidden="true" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px', objectFit: 'contain', opacity: 0.05, pointerEvents: 'none', userSelect: 'none', zIndex: 0 }} />
       {/* Hero */}
-      <div style={{ backgroundColor: C.maroon, color: C.parchment, padding: '4rem 5rem 3rem', position: 'relative', zIndex: 1 }} className="mob-section-lg">
+      <div className="mob-section-lg px-5 py-8 sm:px-8 md:px-20 md:py-16" style={{ backgroundColor: C.maroon, color: C.parchment, position: 'relative', zIndex: 1 }}>
         <p style={{ fontFamily: B, fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.5, marginBottom: '0.75rem' }}>
           <Link to="/" style={{ color: C.parchment, textDecoration: 'none', opacity: 0.5 }}>Home</Link>
           <span style={{ margin: '0 0.5rem', opacity: 0.3 }}>→</span> Customize
         </p>
-        <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 400, lineHeight: 0.95, letterSpacing: '-0.03em', margin: '0 0 1rem' }}>
+        <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(2.25rem, 5vw, 4.5rem)', fontWeight: 400, lineHeight: 0.95, letterSpacing: '-0.03em', margin: '0 0 1rem' }}>
           Design your own bag.
         </h1>
         <p style={{ fontFamily: B, fontSize: '0.95rem', opacity: 0.6, maxWidth: '48ch', lineHeight: 1.75, fontWeight: 300 }}>
@@ -303,7 +303,7 @@ export default function Customize() {
       </div>
 
       {/* Builder */}
-      <div className="page-2col" style={{ maxWidth: '1100px', margin: '0 auto', padding: '4rem 3rem', display: 'grid', gridTemplateColumns: '1fr 360px', gap: '4rem', alignItems: 'start', position: 'relative', zIndex: 1 }}>
+      <div className="page-2col max-w-[1100px] mx-auto px-4 py-8 sm:px-8 sm:py-12 md:px-12 md:py-16 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-16 items-start relative z-10">
         <div>
           <StepBar current={step} />
 
@@ -312,10 +312,10 @@ export default function Customize() {
             <div>
               <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', color: C.maroon, margin: '0 0 0.4rem', fontWeight: 400 }}>Choose a bag shape</h2>
               <p style={{ fontFamily: B, fontSize: '0.82rem', opacity: 0.5, marginBottom: '2rem' }}>All bags are made from 12 oz natural canvas.</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-8">
                 {SILHOUETTES.map(s => (
                   <button key={s.id} onClick={() => setSilhouette(s.id)}
-                    style={{ padding: '1.75rem 1.5rem', border: `2px solid ${silhouette === s.id ? C.maroon : 'rgba(117,24,40,0.15)'}`, backgroundColor: silhouette === s.id ? 'rgba(117,24,40,0.05)' : C.parchment, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}>
+                    style={{ padding: '1.5rem 1.25rem', border: `2px solid ${silhouette === s.id ? C.maroon : 'rgba(117,24,40,0.15)'}`, backgroundColor: silhouette === s.id ? 'rgba(117,24,40,0.05)' : C.parchment, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s' }}>
                     <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{s.icon}</div>
                     <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.1rem', color: C.maroon, margin: '0 0 0.25rem', fontWeight: 400 }}>{s.label}</p>
                     <p style={{ fontFamily: B, fontSize: '0.75rem', opacity: 0.45, margin: '0 0 0.5rem' }}>{s.size}</p>
@@ -427,16 +427,16 @@ export default function Customize() {
       </div>
 
       {/* FAQ strip */}
-      <div className="mob-section-lg" style={{ borderTop: `1px solid rgba(117,24,40,0.1)`, padding: '4rem 5rem', backgroundColor: C.parchment }}>
+      <div className="mob-section-lg px-5 py-12 sm:px-8 sm:py-16 md:px-20 md:py-20" style={{ borderTop: `1px solid rgba(117,24,40,0.1)`, backgroundColor: C.parchment }}>
         <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.5rem', color: C.maroon, margin: '0 0 2rem', fontWeight: 400 }}>Common questions</h2>
-        <div className="mob-1col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
           {[
             ['How long does a custom order take?', '5–7 working days from design confirmation.'],
             ['Can I see a sample before production?', 'Yes — for orders of 5+ pieces, we send a photo approval first.'],
             ['Do you ship outside Kolkata?', 'Yes, pan-India delivery. Shipping cost calculated at confirmation.'],
             ['Can I send my own artwork?', 'Absolutely — share it on WhatsApp once we confirm your order.'],
           ].map(([q, a], i) => (
-            <div key={i} style={{ padding: '1.5rem 2rem', borderTop: `1px solid rgba(117,24,40,0.1)`, borderRight: i % 2 === 0 ? `1px solid rgba(117,24,40,0.1)` : 'none' }}>
+            <div key={i} className={`p-5 sm:p-6 lg:p-8 border-t border-[rgba(117,24,40,0.1)] ${i % 2 === 0 ? 'md:border-r' : ''}`}>
               <p style={{ fontFamily: B, fontSize: '0.88rem', fontWeight: 600, color: C.maroonDeep, margin: '0 0 0.4rem' }}>{q}</p>
               <p style={{ fontFamily: B, fontSize: '0.8rem', opacity: 0.5, margin: 0, lineHeight: 1.65 }}>{a}</p>
             </div>

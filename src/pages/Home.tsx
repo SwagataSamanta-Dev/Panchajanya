@@ -78,22 +78,22 @@ export default function Home() {
         </div>
 
         {/* ── MANIFESTO + STATS strip inside hero ── */}
-        <div style={{ gridColumn: '1 / -1', backgroundColor: C.fog, borderTop: `1px solid rgba(117,24,40,0.1)`, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'stretch' }}>
+        <div className="flex flex-col lg:flex-row items-stretch w-full relative overflow-hidden order-3 lg:order-none" style={{ gridColumn: '1 / -1', backgroundColor: C.fog, borderTop: `1px solid rgba(117,24,40,0.1)` }}>
           <div style={{ position: 'absolute', right: '3rem', top: '50%', transform: 'translateY(-50%)', width: '140px', height: '140px', borderRadius: '50%', overflow: 'hidden', opacity: 0.06, pointerEvents: 'none' }}>
             <img src={logoImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
-          <div style={{ flex: 1, padding: '2.25rem 5.5rem', borderRight: `1px solid rgba(117,24,40,0.1)`, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div className="flex-1 p-6 sm:p-8 lg:px-20 lg:py-9 border-b lg:border-b-0 lg:border-r border-[rgba(117,24,40,0.1)] flex flex-col justify-center">
             <div style={{ width: '2rem', height: '1px', backgroundColor: C.maroon, marginBottom: '1.25rem', opacity: 0.4 }} />
-            <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.1rem, 1.8vw, 1.7rem)', fontWeight: 300, lineHeight: 1.15, color: C.maroon, letterSpacing: '-0.03em', margin: '0 0 0.75rem', maxWidth: '24ch' }}>
+            <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.15rem, 1.8vw, 1.7rem)', fontWeight: 300, lineHeight: 1.15, color: C.maroon, letterSpacing: '-0.03em', margin: '0 0 0.75rem', maxWidth: '24ch' }}>
               "Every purchase trains a woman artisan."
             </p>
             <p style={{ fontFamily: B, fontSize: '0.78rem', letterSpacing: '0.18em', textTransform: 'uppercase', opacity: 0.4, margin: 0 }}>
               Panchajanya · Social Impact Promise
             </p>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'stretch' }}>
-            {[['14', 'Bag designs'], ['100%', 'Women-made'], ['Free', 'Training'], ['35+', 'Products']].map(([val, lbl], i) => (
-              <div key={val} style={{ padding: '2.25rem 2rem', borderLeft: `1px solid rgba(117,24,40,0.08)`, display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: '110px' }}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:flex-row items-stretch">
+            {[['14', 'Bag designs'], ['100%', 'Women-made'], ['Free', 'Training'], ['35+', 'Products']].map(([val, lbl]) => (
+              <div key={val} className="p-4 sm:p-6 lg:px-8 lg:py-9 border-b sm:border-b-0 border-l border-[rgba(117,24,40,0.08)] flex flex-col justify-center text-center lg:text-left min-w-0 lg:min-w-[110px]">
                 <span style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.4rem', color: C.maroon, lineHeight: 1 }}>{val}</span>
                 <span style={{ fontFamily: B, fontSize: '0.78rem', opacity: 0.5, marginTop: '0.2rem', letterSpacing: '0.04em' }}>{lbl}</span>
               </div>
@@ -198,11 +198,11 @@ export default function Home() {
       </div>
 
       {/* ── PILLARS ── */}
-      <div role="region" className="mob-section-lg" style={{ padding: '7rem 5rem', backgroundColor: C.parchment }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', alignItems: 'end', marginBottom: '3rem' }}>
+      <div role="region" className="mob-section-lg px-5 py-12 sm:px-8 sm:py-16 md:px-20 md:py-28" style={{ backgroundColor: C.parchment }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-end mb-8 md:mb-12">
           <div>
             <p style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '1rem' }}>Why Panchajanya</p>
-            <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', margin: 0, color: C.maroon }}>
+            <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', margin: 0, color: C.maroon }}>
               More than a bag —<br />a livelihood.
             </h2>
           </div>
@@ -210,9 +210,9 @@ export default function Home() {
             We run a free artisan training facility in Sonarpur for unemployed young women. When you buy from us, you fund that training directly.
           </p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
           {PILLARS.map((p, i) => (
-            <div key={p.num} style={{ position: 'relative', overflow: 'hidden', borderLeft: i > 0 ? `1px solid rgba(117,24,40,0.12)` : 'none', padding: '2.5rem 2rem 2rem' }}>
+            <div key={p.num} className={`relative overflow-hidden p-6 sm:p-8 lg:p-8 border-[rgba(117,24,40,0.12)] ${i > 0 ? 'border-t sm:border-t-0 lg:border-l' : ''} ${i === 1 ? 'sm:border-l' : ''} ${i >= 2 ? 'sm:border-t lg:sm:border-t-0' : ''}`}>
               <span style={{ position: 'absolute', top: '-1.5rem', left: '-0.75rem', fontFamily: D, fontSize: '13rem', fontWeight: 500, color: C.maroon, opacity: 0.04, lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>{p.num}</span>
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <span style={{ fontFamily: B, fontSize: '0.78rem', letterSpacing: '0.18em', color: C.maroonMid, textTransform: 'uppercase' }}>{p.num}</span>
@@ -225,19 +225,19 @@ export default function Home() {
       </div>
 
       {/* ── SOCIAL IMPACT SPLIT ── */}
-      <div role="region" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '560px' }}>
-        <div style={{ overflow: 'hidden', backgroundColor: C.sand }}>
+      <div role="region" className="grid grid-cols-1 lg:grid-cols-2 min-h-0 lg:min-h-[560px]">
+        <div className="overflow-hidden h-[280px] sm:h-[380px] lg:h-full" style={{ backgroundColor: C.sand }}>
           <img src={artisanImg} alt="Woman artisan at a sewing machine making canvas bags" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         </div>
-        <div style={{ backgroundColor: C.maroonDeep, color: C.parchment, padding: '4rem 4.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <p style={{ fontFamily: B, fontSize: '1.25rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: C.sand, fontWeight: 700, marginBottom: '1.5rem', opacity: 1, lineHeight: 1.4 }}><strong>Our Impact · Sonarpur, South Kolkata</strong></p>
-          <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: '1.5rem' }}>
+        <div className="p-6 sm:p-10 lg:p-16 flex flex-col justify-center" style={{ backgroundColor: C.maroonDeep, color: C.parchment }}>
+          <p style={{ fontFamily: B, fontSize: '1.15rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: C.sand, fontWeight: 700, marginBottom: '1.25rem', opacity: 1, lineHeight: 1.4 }}><strong>Our Impact · Sonarpur, South Kolkata</strong></p>
+          <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: '1.25rem' }}>
             A free training facility<br /><span style={{ color: C.sand }}>for women who make it.</span>
           </h2>
           <p style={{ fontFamily: B, fontSize: '0.95rem', lineHeight: 1.8, opacity: 0.68, fontWeight: 300, marginBottom: '2rem', maxWidth: '42ch' }}>
             Every woman who joins our programme starts with no prior craft experience. Within weeks, she is producing sellable goods. Training, tools, and workspace are all free.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0', borderTop: '1px solid rgba(242,232,208,0.12)', paddingTop: '1.75rem', marginBottom: '2rem' }}>
+          <div className="grid grid-cols-2 gap-4 border-t border-[rgba(242,232,208,0.12)] pt-6 mb-8">
             {[['35+', 'Products'], ['100%', 'Women-made']].map(([stat, label], i) => (
               <div key={stat} style={{ borderLeft: i > 0 ? '1px solid rgba(242,232,208,0.1)' : 'none', paddingLeft: i > 0 ? '1.25rem' : 0 }}>
                 <span style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.5rem', color: C.sand, display: 'block', lineHeight: 1 }}>{stat}</span>
@@ -252,31 +252,40 @@ export default function Home() {
       </div>
 
       {/* ── MODEL EDITORIAL ── */}
-      <div role="region" style={{ display: 'grid', gridTemplateColumns: '50% 50%', minHeight: '680px', backgroundColor: C.parchment }}>
-        <div style={{ position: 'relative', overflow: 'hidden', backgroundColor: C.sand }}>
+      <div role="region" className="grid grid-cols-1 lg:grid-cols-2 min-h-0 lg:min-h-[680px]" style={{ backgroundColor: C.parchment }}>
+        <Link
+          to="/shop?category=canvas-bags"
+          className="group relative overflow-hidden h-[320px] sm:h-[420px] lg:h-full block cursor-pointer"
+          style={{ backgroundColor: C.sand, textDecoration: 'none' }}
+          aria-label="View Kalamkari Sling in Shop"
+        >
           <img
             src={kalamkariSling}
             alt="Kalamkari Sling bag — hand block-printed kalamkari paisley flap on black canvas"
             loading="lazy"
             width={900}
             height={640}
+            className="transition-transform duration-700 ease-out group-hover:scale-105"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
-          <div style={{ position: 'absolute', bottom: '2.5rem', left: '2.5rem', backgroundColor: C.parchment, padding: '1rem 1.5rem', maxWidth: '220px' }}>
+          <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 p-3 sm:p-5 max-w-[210px] sm:max-w-[240px] shadow-lg transition-transform duration-300 ease-out group-hover:-translate-y-1" style={{ backgroundColor: C.parchment }}>
             <p style={{ fontFamily: B, fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '0.35rem' }}>Featured · Slings</p>
-            <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.15rem', color: C.maroon, margin: '0 0 0.25rem', fontWeight: 400 }}>Kalamkari Sling</p>
-            <p style={{ fontFamily: B, fontSize: '0.88rem', fontWeight: 600, color: C.maroonDeep }}>₹550</p>
+            <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.2rem', color: C.maroon, margin: '0 0 0.25rem', fontWeight: 400 }}>Kalamkari Sling</p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <p style={{ fontFamily: B, fontSize: '0.88rem', fontWeight: 600, color: C.maroonDeep, margin: 0 }}>₹550</p>
+              <span style={{ fontFamily: B, fontSize: '0.75rem', fontWeight: 700, color: C.maroon, letterSpacing: '0.04em' }}>Shop Now →</span>
+            </div>
           </div>
-        </div>
-        <div style={{ backgroundColor: C.maroonDeep, color: C.parchment, padding: '4.5rem 4rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <p style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.sand, opacity: 0.75, marginBottom: '1.5rem' }}>Carry with intention</p>
-          <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: '1.5rem' }}>
+        </Link>
+        <div className="p-6 sm:p-10 lg:p-16 flex flex-col justify-center" style={{ backgroundColor: C.maroonDeep, color: C.parchment }}>
+          <p style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.sand, opacity: 0.75, marginBottom: '1.25rem' }}>Carry with intention</p>
+          <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: '1.25rem' }}>
             A bag made by hand<br /><span style={{ color: C.sand }}>carries more than things.</span>
           </h2>
-          <p style={{ fontFamily: B, fontSize: '0.95rem', lineHeight: 1.8, opacity: 0.62, fontWeight: 300, maxWidth: '38ch', marginBottom: '2.5rem' }}>
+          <p style={{ fontFamily: B, fontSize: '0.95rem', lineHeight: 1.8, opacity: 0.62, fontWeight: 300, maxWidth: '38ch', marginBottom: '2rem' }}>
             Every sling, tote, and saddle bag leaves our Sonarpur workshop with a name behind it — a woman who trained, made, and takes pride in what she creates.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1px', backgroundColor: 'rgba(242,232,208,0.1)', marginBottom: '2.5rem' }}>
+          <div className="grid grid-cols-2 gap-px mb-8" style={{ backgroundColor: 'rgba(242,232,208,0.1)' }}>
             {[
               ['12 oz', 'Natural canvas'],
               ['Brass', 'Hardware fittings'],
@@ -291,7 +300,7 @@ export default function Home() {
           </div>
           <button
             className="site-nav__cta"
-            onClick={() => navigate('/shop')}
+            onClick={() => navigate('/shop?category=canvas-bags')}
             style={{ alignSelf: 'flex-start', fontFamily: B, fontSize: '0.78rem', letterSpacing: '0.1em', textTransform: 'uppercase', backgroundColor: C.parchment, color: C.maroonDeep, padding: '0.85rem 2rem', border: 'none', cursor: 'pointer' }}
           >
             Shop Sling Bags →
@@ -300,47 +309,92 @@ export default function Home() {
       </div>
 
       {/* ── CATEGORIES ── */}
-      <div role="region" className="dot-grid mob-section-lg" style={{ padding: '7rem 5rem', backgroundColor: C.fog, position: 'relative' }}>
+      <div role="region" className="dot-grid mob-section-lg px-5 py-12 sm:px-8 sm:py-16 md:px-20 md:py-28 relative" style={{ backgroundColor: C.fog }}>
         <div style={{ marginBottom: '2.5rem' }}>
           <p style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '0.75rem' }}>Our Collections</p>
-          <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', color: C.maroon, margin: 0 }}>
+          <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', color: C.maroon, margin: 0 }}>
             Canvas bags, kaftans,<br />and things for the home.
           </h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto', gap: '1.25rem' }}>
-          {[CATEGORIES[0], CATEGORIES[1]].map((cat, ci) => (
-            <article key={cat.title} style={{ backgroundColor: C.parchment, overflow: 'hidden', display: 'flex', flexDirection: 'column', borderTop: `3px solid ${cat.tone}` }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+          <Link
+            to="/shop?category=canvas-bags"
+            className="group block no-underline transition-transform duration-300 hover:-translate-y-1"
+            style={{ textDecoration: 'none' }}
+            aria-label="Explore Canvas Bags Collection"
+          >
+            <article style={{ backgroundColor: C.parchment, overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%', borderTop: `3px solid ${CATEGORIES[0].tone}` }}>
               <div style={{ overflow: 'hidden', backgroundColor: C.sand }}>
-                <img src={ci === 0 ? cat0Img : cat1Img} alt={cat.title} loading="lazy" width={700} height={220} className="img-zoom" style={{ width: '100%', height: '220px', objectFit: 'cover', objectPosition: 'center top', display: 'block', backgroundColor: C.sand }} />
+                <img src={cat0Img} alt={CATEGORIES[0].title} loading="lazy" width={700} height={220} className="img-zoom transition-transform duration-500 group-hover:scale-105" style={{ width: '100%', height: '220px', objectFit: 'cover', objectPosition: 'center top', display: 'block', backgroundColor: C.sand }} />
               </div>
-              <div style={{ padding: '1.5rem' }}>
-                <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', fontWeight: 400, color: cat.tone, margin: '0 0 0.75rem' }}>{cat.title}</h3>
+              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.75rem' }}>
+                    <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', fontWeight: 400, color: CATEGORIES[0].tone, margin: 0 }}>{CATEGORIES[0].title}</h3>
+                    <span style={{ fontFamily: B, fontSize: '0.75rem', fontWeight: 600, color: CATEGORIES[0].tone, letterSpacing: '0.04em' }}>Explore →</span>
+                  </div>
+                  <ul style={{ listStyle: 'none', margin: 0, padding: 0, fontFamily: B, fontSize: '0.82rem', display: 'flex', flexWrap: 'wrap', gap: '0.35rem 1.1rem', opacity: 0.6 }}>
+                    {CATEGORIES[0].items.map(item => <li key={item}>— {item}</li>)}
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </Link>
+
+          <Link
+            to="/shop?category=kaftans"
+            className="group block no-underline transition-transform duration-300 hover:-translate-y-1"
+            style={{ textDecoration: 'none' }}
+            aria-label="Explore Kaftans and Jackets Collection"
+          >
+            <article style={{ backgroundColor: C.parchment, overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%', borderTop: `3px solid ${CATEGORIES[1].tone}` }}>
+              <div style={{ overflow: 'hidden', backgroundColor: C.sand }}>
+                <img src={cat1Img} alt={CATEGORIES[1].title} loading="lazy" width={700} height={220} className="img-zoom transition-transform duration-500 group-hover:scale-105" style={{ width: '100%', height: '220px', objectFit: 'cover', objectPosition: 'center top', display: 'block', backgroundColor: C.sand }} />
+              </div>
+              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.75rem' }}>
+                    <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', fontWeight: 400, color: CATEGORIES[1].tone, margin: 0 }}>{CATEGORIES[1].title}</h3>
+                    <span style={{ fontFamily: B, fontSize: '0.75rem', fontWeight: 600, color: CATEGORIES[1].tone, letterSpacing: '0.04em' }}>Explore →</span>
+                  </div>
+                  <ul style={{ listStyle: 'none', margin: 0, padding: 0, fontFamily: B, fontSize: '0.82rem', display: 'flex', flexWrap: 'wrap', gap: '0.35rem 1.1rem', opacity: 0.6 }}>
+                    {CATEGORIES[1].items.map(item => <li key={item}>— {item}</li>)}
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </Link>
+
+          <Link
+            to="/shop?category=home-decor"
+            className="group col-span-1 md:col-span-2 block no-underline transition-transform duration-300 hover:-translate-y-1"
+            style={{ textDecoration: 'none' }}
+            aria-label="Explore Home Decor Collection"
+          >
+            <article className="grid grid-cols-1 md:grid-cols-2 overflow-hidden" style={{ backgroundColor: C.parchment, borderTop: `3px solid ${CATEGORIES[2].tone}` }}>
+              <div style={{ overflow: 'hidden', backgroundColor: C.sand }}>
+                <img src={homeDecorImg} alt="Home decor" loading="lazy" width={700} height={220} className="img-zoom transition-transform duration-500 group-hover:scale-105" style={{ width: '100%', height: '220px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+              </div>
+              <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.75rem' }}>
+                  <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', fontWeight: 400, color: CATEGORIES[2].tone, margin: 0 }}>{CATEGORIES[2].title}</h3>
+                  <span style={{ fontFamily: B, fontSize: '0.75rem', fontWeight: 600, color: CATEGORIES[2].tone, letterSpacing: '0.04em' }}>Explore →</span>
+                </div>
                 <ul style={{ listStyle: 'none', margin: 0, padding: 0, fontFamily: B, fontSize: '0.82rem', display: 'flex', flexWrap: 'wrap', gap: '0.35rem 1.1rem', opacity: 0.6 }}>
-                  {cat.items.map(item => <li key={item}>— {item}</li>)}
+                  {CATEGORIES[2].items.map(item => <li key={item}>— {item}</li>)}
                 </ul>
               </div>
             </article>
-          ))}
-          <article style={{ gridColumn: '1 / -1', backgroundColor: C.parchment, overflow: 'hidden', borderTop: `3px solid ${CATEGORIES[2].tone}`, display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-            <div style={{ overflow: 'hidden', backgroundColor: C.sand }}>
-              <img src={homeDecorImg} alt="Home decor" loading="lazy" width={700} height={190} className="img-zoom" style={{ width: '100%', height: '190px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
-            </div>
-            <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', fontWeight: 400, color: CATEGORIES[2].tone, margin: '0 0 0.75rem' }}>{CATEGORIES[2].title}</h3>
-              <ul style={{ listStyle: 'none', margin: 0, padding: 0, fontFamily: B, fontSize: '0.82rem', display: 'flex', flexWrap: 'wrap', gap: '0.35rem 1.1rem', opacity: 0.6 }}>
-                {CATEGORIES[2].items.map(item => <li key={item}>— {item}</li>)}
-              </ul>
-            </div>
-          </article>
+          </Link>
         </div>
       </div>
 
       {/* ── SHOP BENTO ── */}
-      <div role="region" className="mob-section-lg" style={{ padding: '7rem 5rem', backgroundColor: C.parchment }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2.5rem' }}>
+      <div role="region" className="mob-section-lg px-5 py-12 sm:px-8 sm:py-16 md:px-20 md:py-28" style={{ backgroundColor: C.parchment }}>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 md:mb-10">
           <div>
             <p style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '0.5rem' }}>Hover to preview · click for details</p>
-            <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', color: C.maroon, margin: 0 }}>
+            <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', color: C.maroon, margin: 0 }}>
               Every piece, a small act of intention.
             </h2>
           </div>
@@ -348,17 +402,27 @@ export default function Home() {
             All {products.length > 0 ? products.length : '14'} designs →
           </Link>
         </div>
-        <div className="shop-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gridTemplateRows: '460px 460px', gap: '1.5rem', marginBottom: '1.5rem' }}>
+
+        {/* Desktop Bento Grid */}
+        <div className="hidden lg:grid grid-cols-3 grid-rows-[460px_460px] gap-6 mb-6">
           <ProdFlipCard product={products[4] || products[0]} style={{ gridArea: '1 / 1 / 3 / 3' }} />
           <ProdFlipCard product={products[0]} style={{ gridArea: '1 / 3 / 2 / 4' }} />
           <ProdFlipCard product={products[14] || products[1]} style={{ gridArea: '2 / 3 / 3 / 4' }} />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
+
+        {/* Mobile/Tablet Grid */}
+        <div className="grid lg:hidden grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <ProdFlipCard product={products[4] || products[0]} style={{ height: '380px' }} />
+          <ProdFlipCard product={products[0]} style={{ height: '380px' }} />
+          <ProdFlipCard product={products[14] || products[1]} style={{ height: '380px' }} />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-4 md:mb-6">
           {[products[2], products[15], products[21], products[22]].filter(Boolean).map(product => (
             <ProdFlipCard key={product.id} product={product} style={{ height: '380px' }} />
           ))}
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {[products[3], products[9], products[5]].filter(Boolean).map(product => (
             <ProdFlipCard key={product.id} product={product} style={{ height: '340px' }} />
           ))}
@@ -366,13 +430,13 @@ export default function Home() {
       </div>
 
       {/* ── BUNDLE & SAVE ── */}
-      <div role="region" className="mob-section-lg" style={{ padding: '7rem 5rem', backgroundColor: C.maroon, color: C.parchment, position: 'relative', overflow: 'hidden' }}>
+      <div role="region" className="mob-section-lg px-5 py-12 sm:px-8 sm:py-16 md:px-20 md:py-28 relative overflow-hidden" style={{ backgroundColor: C.maroon, color: C.parchment }}>
         <span style={{ position: 'absolute', right: '-2rem', bottom: '-3rem', fontFamily: D, fontSize: '18rem', fontStyle: 'italic', fontWeight: 500, color: C.parchment, opacity: 0.04, lineHeight: 1, userSelect: 'none', pointerEvents: 'none', whiteSpace: 'nowrap' }}>Bundle</span>
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'end', marginBottom: '2.5rem' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-end mb-8 md:mb-10">
             <div>
               <p style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.sand, opacity: 0.85, marginBottom: '1rem' }}>Beat the Delivery Cost</p>
-              <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', margin: 0 }}>
+              <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 2.5vw, 2.5rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', margin: 0 }}>
                 Bundle and save —<br /><span style={{ color: C.sand }}>free delivery included.</span>
               </h2>
             </div>
@@ -380,7 +444,7 @@ export default function Home() {
               Single-item delivery can exceed the product price. Our bundles solve that — better value, more artisan impact.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: 'rgba(242,232,208,0.1)' }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-px" style={{ backgroundColor: 'rgba(242,232,208,0.1)' }}>
             {BUNDLES.map((bundle, i) => (
               <div key={bundle.name} className="bundle-card" style={{ backgroundColor: C.maroon, padding: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', cursor: 'pointer' }}>
                 <span style={{ fontFamily: B, fontSize: '0.78rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: C.sand, opacity: 0.75 }}>Bundle 0{i + 1}</span>
@@ -397,9 +461,9 @@ export default function Home() {
       </div>
 
       {/* ── TESTIMONIALS ── */}
-      <div role="region" className="mob-section-lg" style={{ padding: '7rem 5rem', backgroundColor: C.fog }}>
-        <p style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '3rem' }}>From Our Customers</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '2.5rem', alignItems: 'start' }}>
+      <div role="region" className="mob-section-lg px-5 py-12 sm:px-8 sm:py-16 md:px-20 md:py-28" style={{ backgroundColor: C.fog }}>
+        <p style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '2.5rem' }}>From Our Customers</p>
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] gap-6 md:gap-10 items-start">
           <div style={{ borderTop: `3px solid ${C.maroon}`, paddingTop: '2rem' }}>
             <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1rem, 1.6vw, 1.35rem)', lineHeight: 1.55, color: C.maroon, letterSpacing: '-0.01em', marginBottom: '1.5rem' }}>
               "I ordered a tote from their Instagram story and it arrived in two days. The quality shocked me — and knowing it was made by women in Sonarpur made it feel worth every rupee."

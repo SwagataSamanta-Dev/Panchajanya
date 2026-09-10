@@ -153,7 +153,7 @@ export default function Root() {
             </p>
           </div>
           {[
-            { heading: 'Shop',     links: [['Canvas Bags', '/shop'], ['Kaftans & Jackets', '/shop'], ['Home Decor', '/shop'], ['Coin Purses', '/shop']] },
+            { heading: 'Shop',     links: [['Canvas Bags', '/shop?category=canvas-bags'], ['Kaftans & Jackets', '/shop?category=kaftans'], ['Home Decor', '/shop?category=home-decor'], ['Coin Purses', '/shop?category=canvas-bags']] },
             { heading: 'Buy More', links: [['Bundle Deals', '/shop'], ['Wholesale Pricing', '/wholesale'], ['Art Student Supply', '/wholesale'], ['Corporate Gifting', '/wholesale']] },
             { heading: 'Company',  links: [['Our Story', '/story'], ['Join Us', '/join'], ['Artisan Training', '/join'], ['Delivery Partner', '/join']] },
           ].map(({ heading, links }) => (

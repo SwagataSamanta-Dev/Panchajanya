@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router'
+import { useState, useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router'
 import { C, D, B, BUNDLES } from '@/data'
 import { useCart, type Size } from '@/CartContext'
 import { useSaved } from '@/SavedContext'
@@ -55,7 +55,7 @@ function ShopCard({ product, tall }: {
 
   return (
     <article style={{ display: 'flex', flexDirection: 'column', backgroundColor: product.accent || '#751828' }}>
-      <div className="flip-wrap" style={{ position: 'relative', height: tall ? '520px' : '400px', overflow: 'hidden', flexShrink: 0, cursor: 'pointer' }}>
+      <div className={`flip-wrap ${tall ? 'h-[360px] sm:h-[480px] lg:h-[520px]' : 'h-[300px] sm:h-[380px] lg:h-[400px]'}`} style={{ position: 'relative', overflow: 'hidden', flexShrink: 0, cursor: 'pointer' }}>
         <div className="flip-inner" style={{ width: '100%', height: '100%', position: 'relative' }}>
           <div className="flip-face">
             <img
@@ -158,9 +158,41 @@ function ShopSkeleton() {
   )
 }
 
+function parseCategoryParam(param: string | null): 'all' | 'bags' | 'apparel' | 'decor' {
+  if (!param) return 'all'
+  const p = param.trim().toLowerCase()
+  if (p === 'canvas-bags' || p === 'canvas_bags' || p === 'bags' || p === 'bag' || p === 'slings') return 'bags'
+  if (p === 'kaftans' || p === 'kaftans-jackets' || p === 'kaftans_jackets' || p === 'apparel' || p === 'clothing') return 'apparel'
+  if (p === 'home-decor' || p === 'home_decor' || p === 'decor' || p === 'home') return 'decor'
+  return 'all'
+}
+
 export default function Shop() {
   const { products: allProducts, loading, error, refresh } = useProducts()
-  const [filter, setFilter] = useState<'all' | 'bags' | 'apparel' | 'decor'>('all')
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const categoryParam = searchParams.get('category')
+  const [filter, setFilter] = useState<'all' | 'bags' | 'apparel' | 'decor'>(() => parseCategoryParam(categoryParam))
+
+  // Synchronize active filter tab whenever URL search params change
+  useEffect(() => {
+    setFilter(parseCategoryParam(searchParams.get('category')))
+  }, [searchParams])
+
+  const handleTabClick = (tabKey: 'all' | 'bags' | 'apparel' | 'decor') => {
+    setFilter(tabKey)
+    const newParams = new URLSearchParams(searchParams)
+    if (tabKey === 'all') {
+      newParams.delete('category')
+    } else if (tabKey === 'bags') {
+      newParams.set('category', 'canvas-bags')
+    } else if (tabKey === 'apparel') {
+      newParams.set('category', 'kaftans')
+    } else if (tabKey === 'decor') {
+      newParams.set('category', 'home-decor')
+    }
+    setSearchParams(newParams, { replace: true })
+  }
 
   const bagsList = allProducts.filter(isBag)
   const apparelList = allProducts.filter(isApparel)
@@ -187,14 +219,14 @@ export default function Shop() {
     <>
       {/* PAGE HEADER */}
       <div style={{ paddingTop: '68px', backgroundColor: C.maroonDeep, color: C.parchment, position: 'relative', overflow: 'hidden' }}>
-        <div style={{ padding: '4rem 5rem 0', position: 'relative', zIndex: 1 }}>
+        <div className="px-5 py-8 sm:px-8 md:px-20 md:py-16 pb-0 md:pb-0 relative z-10">
           <p style={{ fontFamily: B, fontSize: '0.7rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.sand, opacity: 0.6, marginBottom: '0.75rem' }}>
             <Link to="/" style={{ color: C.sand, textDecoration: 'none', opacity: 0.5 }}>Home</Link>
             <span style={{ opacity: 0.3, margin: '0 0.5rem' }}>→</span> Shop
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'end', paddingBottom: '3rem' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 items-end pb-8 md:pb-12">
             <div>
-              <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(2.75rem, 5vw, 4.5rem)', fontWeight: 400, lineHeight: 0.95, letterSpacing: '-0.03em', margin: '0 0 1.25rem' }}>
+              <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 400, lineHeight: 0.95, letterSpacing: '-0.03em', margin: '0 0 1.25rem' }}>
                 The Full<br />Catalogue
               </h1>
               <p style={{ fontFamily: B, fontSize: '0.925rem', lineHeight: 1.75, opacity: 0.55, maxWidth: '42ch', fontWeight: 300 }}>
@@ -202,10 +234,10 @@ export default function Shop() {
               </p>
             </div>
             {/* Inline stats */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0', borderLeft: '1px solid rgba(242,232,208,0.08)' }}>
+            <div className="grid grid-cols-3 gap-0 border-t lg:border-t-0 lg:border-l border-[rgba(242,232,208,0.08)] pt-4 lg:pt-0">
               {[[allProducts.length > 0 ? `${allProducts.length}` : '24', 'Artisan Designs'], ['₹420', 'Starting from'], ['100%', 'Women-made']].map(([val, lbl], i) => (
-                <div key={val} style={{ padding: '1.5rem 2rem', borderLeft: i > 0 ? '1px solid rgba(242,232,208,0.08)' : 'none', textAlign: 'center' }}>
-                  <span style={{ fontFamily: D, fontStyle: 'italic', fontSize: '2rem', color: C.sand, display: 'block', lineHeight: 1 }}>{val}</span>
+                <div key={val} className="py-3 px-1 sm:p-4 lg:py-6 lg:px-8 border-l border-[rgba(242,232,208,0.08)] first:border-l-0 text-center">
+                  <span style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', color: C.sand, display: 'block', lineHeight: 1 }}>{val}</span>
                   <span style={{ fontFamily: B, fontSize: '0.7rem', opacity: 0.4, display: 'block', marginTop: '0.3rem' }}>{lbl}</span>
                 </div>
               ))}
@@ -214,25 +246,25 @@ export default function Shop() {
         </div>
 
         {/* FILTER TABS */}
-        <div className="shop-filter-bar" style={{ padding: '0 5rem', borderTop: '1px solid rgba(242,232,208,0.08)', display: 'flex', gap: '0', alignItems: 'stretch' }}>
+        <div className="shop-filter-bar no-scrollbar px-4 sm:px-8 md:px-20 flex gap-0 items-stretch overflow-x-auto border-t border-[rgba(242,232,208,0.08)] flex-nowrap">
           {tabs.map(tab => (
-            <button key={tab.key} onClick={() => setFilter(tab.key)}
-              style={{ fontFamily: B, fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '1rem 2rem', background: 'none', border: 'none', cursor: 'pointer', color: filter === tab.key ? C.sand : C.parchment, borderBottom: filter === tab.key ? `2px solid ${C.sand}` : '2px solid transparent', opacity: filter === tab.key ? 1 : 0.4, transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <button key={tab.key} onClick={() => handleTabClick(tab.key)}
+              style={{ fontFamily: B, fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '1rem 1.5rem', background: 'none', border: 'none', cursor: 'pointer', color: filter === tab.key ? C.sand : C.parchment, borderBottom: filter === tab.key ? `2px solid ${C.sand}` : '2px solid transparent', opacity: filter === tab.key ? 1 : 0.4, transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0 }}>
               {tab.label}
               <span style={{ fontFamily: B, fontSize: '0.6rem', backgroundColor: filter === tab.key ? C.sand : 'rgba(242,232,208,0.15)', color: filter === tab.key ? C.maroonDeep : C.parchment, padding: '0.15rem 0.4rem', borderRadius: '2px' }}>{tab.count}</span>
             </button>
           ))}
-          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', paddingRight: '0.5rem' }}>
-            <span style={{ fontFamily: B, fontSize: '0.68rem', opacity: 0.35, color: C.parchment }}>{products.length} items</span>
+          <div className="hidden sm:flex ml-auto items-center pr-2">
+            <span style={{ fontFamily: B, fontSize: '0.68rem', opacity: 0.35, color: C.parchment, whiteSpace: 'nowrap' }}>{products.length} items</span>
           </div>
         </div>
       </div>
 
       {/* FEATURED NEW ARRIVALS — top newest as banner if available */}
       {newProducts.length > 0 && (
-        <div style={{ backgroundColor: C.fog, padding: '1.25rem 5rem', display: 'flex', alignItems: 'center', gap: '1.5rem', borderBottom: `1px solid rgba(117,24,40,0.1)` }}>
+        <div className="px-4 py-3 sm:px-8 md:px-20 flex items-center gap-4 overflow-hidden border-b border-[rgba(117,24,40,0.1)]" style={{ backgroundColor: C.fog }}>
           <span style={{ fontFamily: B, fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', backgroundColor: C.maroon, color: C.parchment, padding: '0.3rem 0.6rem', flexShrink: 0 }}>New In</span>
-          <div style={{ display: 'flex', gap: '2.5rem', overflow: 'hidden' }}>
+          <div className="no-scrollbar flex gap-6 sm:gap-10 overflow-x-auto">
             {newProducts.map(p => (
               <span key={p.id} style={{ fontFamily: D, fontStyle: 'italic', fontSize: '0.95rem', color: C.maroon, whiteSpace: 'nowrap', opacity: 0.8 }}>
                 {p.name} <span style={{ fontFamily: B, fontStyle: 'normal', fontSize: '0.78rem', color: C.maroonMid }}>{p.price}</span>
@@ -243,7 +275,7 @@ export default function Shop() {
       )}
 
       {/* PRODUCT GRID / STATES */}
-      <div role="region" style={{ backgroundColor: C.parchment, padding: '4rem 5rem 7rem' }}>
+      <div role="region" className="px-4 py-8 sm:px-8 sm:py-12 md:px-20 md:py-20" style={{ backgroundColor: C.parchment }}>
         {/* Error Alert */}
         {error && (
           <div style={{ backgroundColor: '#fff2f2', border: '1px solid #e5a4a4', padding: '1.5rem 2rem', marginBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -264,7 +296,7 @@ export default function Shop() {
           <>
             {/* Featured pair — first 2 items large */}
             {filter === 'all' && products.length >= 2 && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                 {products.slice(0, 2).map(p => (
                   <ShopCard key={p.id} product={p} tall />
                 ))}
@@ -272,7 +304,7 @@ export default function Shop() {
             )}
 
             {/* Remaining in 3-col grid */}
-            <div className="shop-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
               {(filter === 'all' && products.length >= 2 ? products.slice(2) : products).map((p) => (
                 <ShopCard key={p.id} product={p} />
               ))}
@@ -287,7 +319,7 @@ export default function Shop() {
         )}
 
         {/* Editorial interjection */}
-        <div style={{ backgroundColor: C.maroon, padding: '3rem 4rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center', marginTop: '2.5rem' }}>
+        <div className="p-6 sm:p-10 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 items-center my-8 md:my-12" style={{ backgroundColor: C.maroon }}>
           <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 2.5vw, 2.25rem)', color: C.parchment, lineHeight: 1.1, letterSpacing: '-0.02em', margin: 0 }}>
             "Every stitch is placed by a woman who learned it for free at our Sonarpur studio."
           </p>
@@ -303,14 +335,14 @@ export default function Shop() {
       </div>
 
       {/* BUNDLE UPSELL — 3 col tight */}
-      <div role="region" style={{ padding: '6rem 5rem', backgroundColor: C.maroonDeep, color: C.parchment }}>
+      <div role="region" className="px-4 py-12 sm:px-8 sm:py-16 md:px-20 md:py-24" style={{ backgroundColor: C.maroonDeep, color: C.parchment }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2.5rem' }}>
           <div>
             <p style={{ fontFamily: B, fontSize: '0.7rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.sand, opacity: 0.7, marginBottom: '0.5rem' }}>Save on shipping</p>
             <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 3vw, 2.75rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', margin: 0 }}>Bundle deals with free delivery</h2>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px', backgroundColor: 'rgba(242,232,208,0.08)' }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-px" style={{ backgroundColor: 'rgba(242,232,208,0.08)' }}>
           {BUNDLES.map((bundle, i) => (
             <div key={bundle.name} style={{ backgroundColor: C.maroonDeep, padding: '2rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', transition: 'background 0.2s', cursor: 'pointer' }}
               onMouseEnter={e => ((e.currentTarget as HTMLElement).style.backgroundColor = C.maroon)}
@@ -328,7 +360,7 @@ export default function Shop() {
       </div>
 
       {/* WHOLESALE CTA */}
-      <div role="region" style={{ padding: '5rem 5rem', backgroundColor: C.fog, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: `1px solid rgba(117,24,40,0.08)` }}>
+      <div role="region" className="px-4 py-8 sm:px-8 sm:py-12 md:px-20 md:py-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-t border-[rgba(117,24,40,0.08)]" style={{ backgroundColor: C.fog }}>
         <div>
           <p style={{ fontFamily: B, fontSize: '0.7rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '0.4rem' }}>Buying in bulk?</p>
           <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', fontWeight: 400, color: C.maroon, margin: 0 }}>Wholesale & B2B pricing available from 5 units.</h3>

@@ -14,13 +14,13 @@ export default function Wholesale() {
     <div style={{ position: 'relative', overflow: 'hidden' }}>
       <img src={logoImg} alt="" aria-hidden="true" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px', objectFit: 'contain', opacity: 0.05, pointerEvents: 'none', userSelect: 'none', zIndex: 0 }} />
       {/* HEADER */}
-      <div className="wholesale-hero mob-section-lg" style={{ paddingTop: '68px', backgroundColor: C.maroon, color: C.parchment, padding: '9rem 5rem 5rem', position: 'relative', overflow: 'hidden' }}>
-        <span style={{ position: 'absolute', right: '-2rem', bottom: '-4rem', fontFamily: D, fontSize: '16rem', fontStyle: 'italic', color: C.parchment, opacity: 0.04, lineHeight: 1, userSelect: 'none', whiteSpace: 'nowrap' }}>Bulk</span>
+      <div className="wholesale-hero px-5 pt-28 pb-12 sm:px-8 sm:pt-32 sm:pb-16 md:px-20 md:pt-36 md:pb-20 relative overflow-hidden text-[#f2e8d0]" style={{ backgroundColor: C.maroon }}>
+        <span className="hidden sm:block absolute right-[-2rem] bottom-[-4rem] italic pointer-events-none select-none whitespace-nowrap opacity-[0.04] leading-none" style={{ fontFamily: D, fontSize: 'clamp(8rem, 16vw, 16rem)', color: C.parchment }}>Bulk</span>
         <p style={{ fontFamily: B, fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.sand, opacity: 0.6, marginBottom: '1rem' }}>
           <Link to="/" style={{ color: C.sand, textDecoration: 'none', opacity: 0.5 }}>Home</Link>
           <span style={{ opacity: 0.3, margin: '0 0.5rem' }}>→</span> Wholesale
         </p>
-        <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(3rem, 6vw, 5.5rem)', fontWeight: 400, lineHeight: 0.95, letterSpacing: '-0.03em', margin: '0 0 1.5rem', position: 'relative', zIndex: 1 }}>
+        <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(2.5rem, 5.5vw, 5.5rem)', fontWeight: 400, lineHeight: 0.95, letterSpacing: '-0.03em', margin: '0 0 1.5rem', position: 'relative', zIndex: 1 }}>
           For merchants,<br />corporates, and<br />art colleges.
         </h1>
         <p style={{ fontFamily: B, fontSize: '1rem', lineHeight: 1.75, opacity: 0.6, maxWidth: '46ch', fontWeight: 300, position: 'relative', zIndex: 1 }}>
@@ -29,8 +29,8 @@ export default function Wholesale() {
       </div>
 
       {/* PRICING TABLE */}
-      <div role="region" className="mob-section-lg" style={{ padding: '8rem 5rem', backgroundColor: C.parchment }}>
-        <div className="mob-1col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start' }}>
+      <div role="region" className="px-5 py-12 sm:px-8 sm:py-16 md:px-20 md:py-28" style={{ backgroundColor: C.parchment }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-start">
           <div>
             <p style={{ fontFamily: B, fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '1rem' }}>Pricing Tiers</p>
             <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 400, lineHeight: 1.05, letterSpacing: '-0.03em', color: C.maroon, marginBottom: '1.5rem' }}>
@@ -39,7 +39,7 @@ export default function Wholesale() {
             <p style={{ fontFamily: B, fontSize: '0.925rem', lineHeight: 1.75, opacity: 0.62, fontWeight: 300, maxWidth: '40ch', marginBottom: '2rem' }}>
               All prices are based on MRP. Discounts apply to the full product range unless noted. Custom labelling, branding, and packaging available for 100+ unit orders.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 sm:gap-4">
               <a
                 href="mailto:panchajanyaco05@gmail.com?subject=Wholesale%20Enquiry"
                 style={{ display: 'inline-block', fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase', backgroundColor: C.maroon, color: C.parchment, padding: '0.9rem 2rem', textDecoration: 'none', textAlign: 'center' }}
@@ -57,27 +57,29 @@ export default function Wholesale() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', backgroundColor: 'rgba(117,24,40,0.1)' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1.5fr', gap: '1.5rem', padding: '0.75rem 1.5rem', backgroundColor: C.maroonDeep }}>
-              {['Tier', 'Quantity', 'Discount', 'Notes'].map(h => (
-                <span key={h} style={{ fontFamily: B, fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: C.parchment, opacity: 0.4 }}>{h}</span>
+          <div className="w-full overflow-x-auto no-scrollbar">
+            <div className="min-w-[480px] lg:min-w-0 flex flex-col gap-[1px]" style={{ backgroundColor: 'rgba(117,24,40,0.1)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1.5fr', gap: '1.25rem', padding: '0.75rem 1.25rem', backgroundColor: C.maroonDeep }}>
+                {['Tier', 'Quantity', 'Discount', 'Notes'].map(h => (
+                  <span key={h} style={{ fontFamily: B, fontSize: '0.62rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: C.parchment, opacity: 0.4 }}>{h}</span>
+                ))}
+              </div>
+              {TIERS.map(row => (
+                <div key={row.tier} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1.5fr', gap: '1.25rem', padding: '1.1rem 1.25rem', alignItems: 'center', backgroundColor: row.highlight ? C.maroon : C.parchment, color: row.highlight ? C.parchment : C.maroonDeep }}>
+                  <span style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.05rem', fontWeight: 400 }}>{row.tier}</span>
+                  <span style={{ fontFamily: B, fontSize: '0.8rem', opacity: row.highlight ? 0.75 : 0.55 }}>{row.qty}</span>
+                  <span style={{ fontFamily: B, fontSize: '0.85rem', fontWeight: 600, color: row.highlight ? C.sand : C.maroon }}>{row.disc}</span>
+                  <span style={{ fontFamily: B, fontSize: '0.78rem', opacity: row.highlight ? 0.65 : 0.5 }}>{row.note}</span>
+                </div>
               ))}
             </div>
-            {TIERS.map(row => (
-              <div key={row.tier} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1.5fr', gap: '1.5rem', padding: '1.25rem 1.5rem', alignItems: 'center', backgroundColor: row.highlight ? C.maroon : C.parchment, color: row.highlight ? C.parchment : C.maroonDeep }}>
-                <span style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.1rem', fontWeight: 400 }}>{row.tier}</span>
-                <span style={{ fontFamily: B, fontSize: '0.8rem', opacity: row.highlight ? 0.75 : 0.55 }}>{row.qty}</span>
-                <span style={{ fontFamily: B, fontSize: '0.85rem', fontWeight: 600, color: row.highlight ? C.sand : C.maroon }}>{row.disc}</span>
-                <span style={{ fontFamily: B, fontSize: '0.78rem', opacity: row.highlight ? 0.65 : 0.5 }}>{row.note}</span>
-              </div>
-            ))}
           </div>
         </div>
       </div>
 
       {/* ART STUDENT SPECIAL */}
-      <div role="region" className="dot-grid mob-section-lg" style={{ backgroundColor: C.fog, padding: '6rem 5rem' }}>
-        <div className="mob-1col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center' }}>
+      <div role="region" className="dot-grid px-5 py-12 sm:px-8 sm:py-16 md:px-20 md:py-24" style={{ backgroundColor: C.fog }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
           <div>
             <p style={{ fontFamily: B, fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '1rem' }}>Art Students</p>
             <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 3vw, 2.75rem)', fontWeight: 400, lineHeight: 1.1, letterSpacing: '-0.02em', color: C.maroon, marginBottom: '1.5rem' }}>
@@ -96,12 +98,12 @@ export default function Wholesale() {
               { product: 'Drawstring Pouch (Unprinted)', size: '30×35 cm', price: '₹120 each (5–19 units)' },
               { product: 'Coin Purse (Unprinted)',     size: '14×12 cm', price: '₹80 each (5–19 units)' },
             ].map(item => (
-              <div key={item.product} style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '1rem', alignItems: 'center', padding: '1.25rem 1.5rem', backgroundColor: C.parchment, borderTop: `2px solid ${C.maroon}` }}>
+              <div key={item.product} className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2 sm:gap-4 items-start sm:items-center p-4 sm:p-5" style={{ backgroundColor: C.parchment, borderTop: `2px solid ${C.maroon}` }}>
                 <div>
                   <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.1rem', color: C.maroon, margin: '0 0 0.25rem', fontWeight: 400 }}>{item.product}</p>
-                  <p style={{ fontFamily: B, fontSize: '0.78rem', opacity: 0.5 }}>{item.size}</p>
+                  <p style={{ fontFamily: B, fontSize: '0.78rem', opacity: 0.5, margin: 0 }}>{item.size}</p>
                 </div>
-                <p style={{ fontFamily: B, fontSize: '0.82rem', fontWeight: 600, color: C.maroon, textAlign: 'right', whiteSpace: 'nowrap' }}>{item.price}</p>
+                <p style={{ fontFamily: B, fontSize: '0.82rem', fontWeight: 600, color: C.maroon, margin: 0 }}>{item.price}</p>
               </div>
             ))}
             <button onClick={() => window.open('mailto:panchajanyaco05@gmail.com?subject=Art%20Student%20Canvas%20Order')} style={{ display: 'block', width: '100%', textAlign: 'center', fontFamily: B, fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', backgroundColor: C.maroon, color: C.parchment, padding: '0.85rem 1.5rem', border: 'none', cursor: 'pointer' }}>
@@ -112,8 +114,8 @@ export default function Wholesale() {
       </div>
 
       {/* CORPORATE */}
-      <div role="region" className="mob-section-lg" style={{ backgroundColor: C.maroonDeep, color: C.parchment, padding: '6rem 5rem' }}>
-        <div className="mob-1col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center' }}>
+      <div role="region" className="px-5 py-12 sm:px-8 sm:py-16 md:px-20 md:py-24 text-[#f2e8d0]" style={{ backgroundColor: C.maroonDeep }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24 items-center">
           <div>
             <p style={{ fontFamily: B, fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.sand, opacity: 0.7, marginBottom: '1rem' }}>Corporate Gifting</p>
             <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 3vw, 2.75rem)', fontWeight: 400, lineHeight: 1.1, letterSpacing: '-0.02em', color: C.parchment, marginBottom: '1.5rem' }}>
@@ -125,7 +127,7 @@ export default function Wholesale() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {['Custom embroidery or tag', 'Kraft box + tissue packaging', 'Insert card — maker\'s story', 'Bulk delivery across India', 'Invoice with GST', '10–15 day turnaround'].map(feature => (
-              <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem 0', borderBottom: '1px solid rgba(242,232,208,0.08)' }}>
+              <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.85rem 0', borderBottom: '1px solid rgba(242,232,208,0.08)' }}>
                 <span style={{ color: C.sand, fontSize: '1rem', flexShrink: 0 }}>✓</span>
                 <span style={{ fontFamily: B, fontSize: '0.9rem', opacity: 0.65 }}>{feature}</span>
               </div>
@@ -135,16 +137,16 @@ export default function Wholesale() {
       </div>
 
       {/* CTA */}
-      <div role="region" style={{ padding: '5rem', backgroundColor: C.fog, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div role="region" className="px-5 py-10 sm:px-8 sm:py-14 md:px-20 flex flex-col md:flex-row justify-between items-start md:items-center gap-6" style={{ backgroundColor: C.fog }}>
         <div>
           <p style={{ fontFamily: B, fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '0.5rem' }}>Ready to order?</p>
-          <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '2rem', fontWeight: 400, color: C.maroon, margin: 0 }}>We respond within 24 hours.</h3>
+          <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 400, color: C.maroon, margin: 0 }}>We respond within 24 hours.</h3>
         </div>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <button onClick={() => window.open('mailto:panchajanyaco05@gmail.com?subject=Wholesale%20Enquiry')} style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase', backgroundColor: C.maroon, color: C.parchment, padding: '0.9rem 2rem', border: 'none', cursor: 'pointer' }}>
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <button onClick={() => window.open('mailto:panchajanyaco05@gmail.com?subject=Wholesale%20Enquiry')} style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase', backgroundColor: C.maroon, color: C.parchment, padding: '0.9rem 2rem', border: 'none', cursor: 'pointer', textAlign: 'center' }}>
             Email Us
           </button>
-          <Link to="/shop" style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase', border: `1px solid rgba(117,24,40,0.3)`, color: C.maroon, padding: '0.9rem 2rem', textDecoration: 'none' }}>
+          <Link to="/shop" style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase', border: `1px solid rgba(117,24,40,0.3)`, color: C.maroon, padding: '0.9rem 2rem', textDecoration: 'none', textAlign: 'center' }}>
             Browse Products
           </Link>
         </div>

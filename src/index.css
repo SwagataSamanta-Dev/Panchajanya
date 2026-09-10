@@ -44,7 +44,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; font-size: 16px; }
+html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; max-width: 100vw; }
 body {
   background-color: var(--color-parchment);
   color: var(--color-maroon-deep);
@@ -52,6 +52,9 @@ body {
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
   cursor: none;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
 }
 a, button, [role="button"] { cursor: none; }
 ::-webkit-scrollbar { width: 0; opacity: 0; }
@@ -1150,9 +1153,27 @@ a:not(.site-logo):not(.site-nav__link):not(.site-nav__cta):not(.site-footer__col
   .site-header { padding: 0 1.5rem; }
   .site-nav { display: none; }
   .site-nav-mobile-right { display: flex; }
-  .hero-grid { grid-template-columns: 1fr; }
-  .hero-img-wrap { display: none; }
-  .hero-left { padding: 3rem 1.5rem; }
+  .hero-grid { display: flex; flex-direction: column; min-height: auto; }
+  .hero-rotated-label { display: none; }
+  .hero-scroll-hint { display: none; }
+  .hero-left { padding: 3rem 1.5rem 2rem; order: 1; }
+  .hero-img-wrap {
+    display: block;
+    width: 100%;
+    height: 380px;
+    position: relative;
+    overflow: hidden;
+    clip-path: none;
+    order: 2;
+  }
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
   .hero-offers { grid-template-columns: 1fr; gap: 0.5rem; }
   .site-footer { padding: 3.5rem 1.5rem 2rem; }
   .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
@@ -1181,7 +1202,9 @@ a:not(.site-logo):not(.site-nav__link):not(.site-nav__cta):not(.site-footer__col
   .site-footer__grid { grid-template-columns: 1fr; gap: 2rem; }
 
   /* Hero */
-  .hero-left { padding: 2.5rem 1.25rem 2rem; }
+  .hero-left { padding: 2.25rem 1.25rem 1.75rem; }
+  .hero-img-wrap { height: 280px; }
+  .hero-h1-line1, .hero-h1-line2 { font-size: clamp(1.85rem, 7vw, 2.5rem); }
 
   /* Carousel */
   .carousel-wrap { padding: 2.5rem 1.25rem 1.5rem; }
@@ -1287,3 +1310,13 @@ a:not(.site-logo):not(.site-nav__link):not(.site-nav__cta):not(.site-footer__col
   .mob-no-rows { grid-template-rows: none !important; }
   .mob-img-short { height: 200px !important; }
 }
+
+/* ── Utility: no-scrollbar ── */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+

@@ -51,13 +51,13 @@ const STEP_ORDER: Step[] = ['cart', 'details', 'payment', 'confirm']
 function StepBar({ current }: { current: Step }) {
   const ci = STEP_ORDER.indexOf(current)
   return (
-    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2.5rem' }}>
+    <div className="no-scrollbar overflow-x-auto pb-1" style={{ display: 'flex', alignItems: 'center', marginBottom: '2.5rem' }}>
       {STEP_ORDER.filter(s => s !== 'cart').map((s, i) => {
         const si = STEP_ORDER.indexOf(s)
         const done = si < ci
         const active = s === current
         return (
-          <div key={s} style={{ display: 'flex', alignItems: 'center', flex: i < 2 ? 1 : 'none' }}>
+          <div key={s} style={{ display: 'flex', alignItems: 'center', flex: i < 2 ? 1 : 'none', flexShrink: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: done || active ? C.maroon : 'transparent', border: `2px solid ${done || active ? C.maroon : 'rgba(117,24,40,0.2)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 {done
@@ -65,11 +65,11 @@ function StepBar({ current }: { current: Step }) {
                   : <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: active ? C.parchment : 'transparent' }} />
                 }
               </div>
-              <span style={{ fontFamily: B, fontSize: '0.75rem', fontWeight: active ? 700 : 400, letterSpacing: '0.08em', textTransform: 'uppercase', color: done || active ? C.maroon : C.maroonDeep, opacity: done || active ? 1 : 0.35 }}>
+              <span className="whitespace-nowrap" style={{ fontFamily: B, fontSize: '0.75rem', fontWeight: active ? 700 : 400, letterSpacing: '0.08em', textTransform: 'uppercase', color: done || active ? C.maroon : C.maroonDeep, opacity: done || active ? 1 : 0.35 }}>
                 {STEP_LABELS[s]}
               </span>
             </div>
-            {i < 2 && <div style={{ flex: 1, height: '1px', backgroundColor: done ? C.maroon : 'rgba(117,24,40,0.15)', margin: '0 0.75rem' }} />}
+            {i < 2 && <div style={{ flex: 1, minWidth: '16px', height: '1px', backgroundColor: done ? C.maroon : 'rgba(117,24,40,0.15)', margin: '0 0.75rem' }} />}
           </div>
         )
       })}
@@ -274,7 +274,7 @@ export default function Cart() {
   }
 
   const OrderSummary = () => (
-    <div className="order-summary-sticky" style={{ backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.1)`, padding: '2rem', position: 'sticky', top: '88px' }}>
+    <div className="order-summary-sticky p-5 sm:p-8 lg:sticky lg:top-[88px] w-full" style={{ backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.1)` }}>
       <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.4rem', color: C.maroon, margin: '0 0 1.5rem' }}>Order Summary</h2>
       {items.map(({ product, qty, size }) => (
         <div key={`${product.id}-${size}`} style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem', alignItems: 'center' }}>
@@ -373,8 +373,8 @@ export default function Cart() {
     }
 
     return (
-      <div style={{ paddingTop: '68px', minHeight: '100vh', backgroundColor: C.fog, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
-        <div style={{ textAlign: 'center', padding: '3.5rem 2.5rem', maxWidth: '620px', width: '100%', backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.15)`, boxShadow: '0 12px 40px rgba(0,0,0,0.06)' }}>
+      <div style={{ paddingTop: '68px', minHeight: '100vh', backgroundColor: C.fog, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2.5rem 1rem' }}>
+        <div className="p-6 sm:p-10 md:p-14" style={{ textAlign: 'center', maxWidth: '620px', width: '100%', backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.15)`, boxShadow: '0 12px 40px rgba(0,0,0,0.06)' }}>
           
           <div style={{ width: '72px', height: '72px', borderRadius: '50%', backgroundColor: '#1e6b3a', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', boxShadow: '0 8px 24px rgba(30,107,58,0.25)' }}>
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
@@ -386,7 +386,7 @@ export default function Cart() {
             Order Placed · #{o.id}
           </span>
 
-          <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '2.5rem', color: C.maroon, margin: '0 0 0.5rem', fontWeight: 400 }}>
+          <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(2rem, 4vw, 2.5rem)', color: C.maroon, margin: '0 0 0.5rem', fontWeight: 400 }}>
             Thank You, {o.customerName}!
           </h1>
           <p style={{ fontFamily: B, fontSize: '0.95rem', lineHeight: 1.6, opacity: 0.75, marginBottom: '0.35rem' }}>
@@ -521,13 +521,13 @@ export default function Cart() {
   if (step === 'payment') {
     return (
       <div style={{ paddingTop: '68px', minHeight: '100vh', backgroundColor: C.fog }}>
-        <div className="page-2col" style={{ maxWidth: '1100px', margin: '0 auto', padding: '5rem 3rem', display: 'grid', gridTemplateColumns: '1fr 380px', gap: '4rem', alignItems: 'start' }}>
+        <div className="page-2col max-w-[1100px] mx-auto px-4 py-8 sm:px-8 sm:py-12 md:px-12 md:py-16 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-16 items-start">
           <div>
             <button onClick={() => setStep('details')} style={{ fontFamily: B, fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: C.maroonMid, background: 'none', border: 'none', cursor: 'pointer', opacity: 0.5, padding: 0, marginBottom: '1.5rem' }}>
               ← Back to Delivery
             </button>
             <StepBar current="payment" />
-            <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '2.25rem', color: C.maroon, margin: '0 0 0.5rem', fontWeight: 400 }}>Choose Payment</h1>
+            <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 3.5vw, 2.25rem)', color: C.maroon, margin: '0 0 0.5rem', fontWeight: 400 }}>Choose Payment</h1>
             <p style={{ fontFamily: B, fontSize: '0.85rem', opacity: 0.5, marginBottom: '2rem' }}>Direct bank-grade security & automated order routing.</p>
 
             {/* Razorpay Online Payment Option */}
@@ -607,8 +607,8 @@ export default function Cart() {
 
         {/* ── Razorpay Test Gateway Modal ── */}
         {isRazorpayModalOpen && (
-          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(12, 35, 64, 0.75)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1.5rem' }}>
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '10px', boxShadow: '0 20px 60px rgba(0,0,0,0.35)', maxWidth: '440px', width: '100%', overflow: 'hidden', textAlign: 'left', border: '1px solid #d1d5db' }}>
+          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(12, 35, 64, 0.75)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1rem' }}>
+            <div style={{ backgroundColor: '#ffffff', borderRadius: '10px', boxShadow: '0 20px 60px rgba(0,0,0,0.35)', maxWidth: '440px', width: '100%', maxHeight: '92vh', overflowY: 'auto', textAlign: 'left', border: '1px solid #d1d5db' }}>
               
               {/* Razorpay Brand Header */}
               <div style={{ backgroundColor: '#0c2340', color: '#ffffff', padding: '1.25rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -775,13 +775,13 @@ export default function Cart() {
   if (step === 'details') {
     return (
       <div style={{ paddingTop: '68px', minHeight: '100vh', backgroundColor: C.fog }}>
-        <div className="page-2col" style={{ maxWidth: '1100px', margin: '0 auto', padding: '5rem 3rem', display: 'grid', gridTemplateColumns: '1fr 380px', gap: '4rem', alignItems: 'start' }}>
+        <div className="page-2col max-w-[1100px] mx-auto px-4 py-8 sm:px-8 sm:py-12 md:px-12 md:py-16 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-16 items-start">
           <div>
             <button onClick={() => setStep('cart')} style={{ fontFamily: B, fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: C.maroonMid, background: 'none', border: 'none', cursor: 'pointer', opacity: 0.5, padding: 0, marginBottom: '1.5rem' }}>
               ← Back to Bag
             </button>
             <StepBar current="details" />
-            <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '2.25rem', color: C.maroon, margin: '0 0 0.5rem', fontWeight: 400 }}>Delivery Details</h1>
+            <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 3.5vw, 2.25rem)', color: C.maroon, margin: '0 0 0.5rem', fontWeight: 400 }}>Delivery Details</h1>
             <p style={{ fontFamily: B, fontSize: '0.85rem', opacity: 0.5, marginBottom: '2rem' }}>Quick guest checkout — no password or account creation required.</p>
 
             {[
@@ -839,11 +839,11 @@ export default function Cart() {
   return (
     <div style={{ paddingTop: '68px', minHeight: '100vh', backgroundColor: C.fog, position: 'relative', overflow: 'hidden' }}>
       <img src={logoImg} alt="" aria-hidden="true" style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px', objectFit: 'contain', opacity: 0.05, pointerEvents: 'none', userSelect: 'none', zIndex: 0 }} />
-      <div className="page-2col" style={{ maxWidth: '1100px', margin: '0 auto', padding: '5rem 3rem', display: 'grid', gridTemplateColumns: '1fr 380px', gap: '4rem', alignItems: 'start', position: 'relative', zIndex: 1 }}>
+      <div className="page-2col max-w-[1100px] mx-auto px-4 py-8 sm:px-8 sm:py-12 md:px-12 md:py-16 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-16 items-start relative z-10">
 
         {/* Cart items */}
         <div>
-          <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '2.5rem', color: C.maroon, margin: '0 0 0.4rem', fontWeight: 400 }}>Your Bag</h1>
+          <h1 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(2rem, 4vw, 2.5rem)', color: C.maroon, margin: '0 0 0.4rem', fontWeight: 400 }}>Your Bag</h1>
           <p style={{ fontFamily: B, fontSize: '0.82rem', opacity: 0.45, marginBottom: '1.5rem' }}>{count} item{count !== 1 ? 's' : ''}</p>
 
           {/* Panchajanya Free-Gift Tier Rewards Banner */}
@@ -880,7 +880,7 @@ export default function Cart() {
             </p>
 
             {/* Multi-Milestone Progress Bar */}
-            <div style={{ position: 'relative', height: '8px', backgroundColor: 'rgba(117,24,40,0.1)', borderRadius: '4px', margin: '1.5rem 0.5rem 2.5rem' }}>
+            <div style={{ position: 'relative', height: '8px', backgroundColor: 'rgba(117,24,40,0.1)', borderRadius: '4px', margin: '1.5rem 1.5rem 3rem' }}>
               <div style={{
                 position: 'absolute',
                 left: 0,
@@ -937,7 +937,7 @@ export default function Cart() {
                 }}>
                   {total >= 3000 && <span style={{ color: '#fff', fontSize: '11px', fontWeight: 800 }}>✓</span>}
                 </div>
-                <div style={{ position: 'absolute', top: '22px', whiteSpace: 'nowrap', textAlign: 'center' }}>
+                <div style={{ position: 'absolute', top: '22px', whiteSpace: 'nowrap', textAlign: 'center', transform: 'translateX(-30%)' }}>
                   <span style={{ display: 'block', fontFamily: B, fontSize: '0.68rem', fontWeight: total >= 3000 ? 700 : 500, color: total >= 3000 ? '#16a34a' : C.maroonDeep, opacity: total >= 3000 ? 1 : 0.6 }}>₹3,000</span>
                   <span style={{ display: 'block', fontFamily: B, fontSize: '0.62rem', color: total >= 3000 ? '#16a34a' : C.maroonDeep, opacity: total >= 3000 ? 1 : 0.45 }}>Special Big Bag</span>
                 </div>
@@ -984,7 +984,7 @@ export default function Cart() {
           {items.map(({ product, qty, size }) => {
             const price = parseInt(product.price.replace(/[^\d]/g, ''))
             return (
-              <div key={`${product.id}-${size}`} className="cart-item-row" style={{ display: 'grid', gridTemplateColumns: '110px 1fr auto', gap: '2rem', alignItems: 'start', backgroundColor: C.parchment, padding: '1.75rem', marginBottom: '1.25rem', border: `1px solid rgba(117,24,40,0.08)` }}>
+              <div key={`${product.id}-${size}`} className="cart-item-row p-4 sm:p-7 grid grid-cols-[80px_1fr] sm:grid-cols-[110px_1fr_auto] gap-3.5 sm:gap-6 items-start mb-4" style={{ backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.08)` }}>
                 <img
                   src={resolveProductImageUrl(product.front_image || product.front)}
                   alt={product.name}
@@ -1000,24 +1000,26 @@ export default function Cart() {
                       target.src = resolveProductImageUrl('1bag.png')
                     }
                   }}
-                  style={{ width: '110px', height: '130px', objectFit: 'cover', display: 'block' }}
+                  className="w-[80px] h-[96px] sm:w-[110px] sm:h-[130px] object-cover block"
                 />
                 <div>
-                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.6rem', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
                     <span style={{ fontFamily: B, fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', backgroundColor: C.maroon, color: C.parchment, padding: '0.18rem 0.5rem' }}>{product.tag}</span>
                     <span style={{ fontFamily: B, fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.08em', color: C.maroon, border: `1px solid rgba(117,24,40,0.3)`, padding: '0.12rem 0.45rem' }}>Size {size}</span>
                   </div>
-                  <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.2rem', color: C.maroon, margin: '0 0 0.25rem', fontWeight: 400 }}>{product.name}</h3>
-                  <p style={{ fontFamily: B, fontSize: '0.78rem', opacity: 0.45, marginBottom: '1rem', lineHeight: 1.55 }}>{product.desc.slice(0, 80)}…</p>
+                  <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.15rem', color: C.maroon, margin: '0 0 0.25rem', fontWeight: 400 }}>{product.name}</h3>
+                  <p style={{ fontFamily: B, fontSize: '0.78rem', opacity: 0.45, marginBottom: '0.75rem', lineHeight: 1.55 }}>{product.desc.slice(0, 75)}…</p>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <button onClick={() => setQty(product.id, size, qty - 1)} style={{ width: '32px', height: '32px', border: `1.5px solid rgba(117,24,40,0.25)`, background: 'transparent', color: C.maroon, fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
-                    <span style={{ width: '40px', textAlign: 'center', fontFamily: B, fontSize: '0.92rem', fontWeight: 700, color: C.maroonDeep, border: `1.5px solid rgba(117,24,40,0.25)`, borderLeft: 'none', borderRight: 'none', height: '32px', lineHeight: '30px' }}>{qty}</span>
-                    <button onClick={() => setQty(product.id, size, qty + 1)} style={{ width: '32px', height: '32px', border: `1.5px solid rgba(117,24,40,0.25)`, background: 'transparent', color: C.maroon, fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+                    <button onClick={() => setQty(product.id, size, qty - 1)} style={{ width: '30px', height: '30px', border: `1.5px solid rgba(117,24,40,0.25)`, background: 'transparent', color: C.maroon, fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
+                    <span style={{ width: '36px', textAlign: 'center', fontFamily: B, fontSize: '0.9rem', fontWeight: 700, color: C.maroonDeep, border: `1.5px solid rgba(117,24,40,0.25)`, borderLeft: 'none', borderRight: 'none', height: '30px', lineHeight: '28px' }}>{qty}</span>
+                    <button onClick={() => setQty(product.id, size, qty + 1)} style={{ width: '30px', height: '30px', border: `1.5px solid rgba(117,24,40,0.25)`, background: 'transparent', color: C.maroon, fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
                   </div>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.6rem' }}>
-                  <span style={{ fontFamily: B, fontSize: '1.05rem', fontWeight: 700, color: C.maroon }}>₹{(price * qty).toLocaleString('en-IN')}</span>
-                  <span style={{ fontFamily: B, fontSize: '0.72rem', opacity: 0.4 }}>{product.price} each</span>
+                <div className="col-span-2 sm:col-span-1 flex flex-row sm:flex-col justify-between items-center sm:items-end pt-3 sm:pt-0 border-t sm:border-t-0 border-[#751828]/10 w-full sm:w-auto">
+                  <div>
+                    <span style={{ fontFamily: B, fontSize: '1.05rem', fontWeight: 700, color: C.maroon }}>₹{(price * qty).toLocaleString('en-IN')}</span>
+                    <span className="block sm:inline sm:ml-0" style={{ fontFamily: B, fontSize: '0.72rem', opacity: 0.4 }}> ({product.price} each)</span>
+                  </div>
                   <button onClick={() => remove(product.id, size)} style={{ fontFamily: B, fontSize: '0.7rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: C.maroonMid, background: 'none', border: 'none', cursor: 'pointer', opacity: 0.5, marginTop: 'auto' }}>Remove</button>
                 </div>
               </div>
@@ -1026,7 +1028,7 @@ export default function Cart() {
         </div>
 
         {/* Order summary + checkout */}
-        <div className="order-summary-sticky" style={{ backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.1)`, padding: '2rem', position: 'sticky', top: '88px' }}>
+        <div className="order-summary-sticky p-5 sm:p-8 lg:sticky lg:top-[88px] w-full" style={{ backgroundColor: C.parchment, border: `1px solid rgba(117,24,40,0.1)` }}>
           <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.5rem', color: C.maroon, margin: '0 0 1.5rem' }}>Order Summary</h2>
           {activeFreeGift && (
             <div style={{
