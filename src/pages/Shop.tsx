@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { C, D, B, BUNDLES } from '@/data'
 import { useCart, type Size } from '@/CartContext'
@@ -8,20 +8,38 @@ import type { Product } from '@/types'
 
 function isBag(p: Product): boolean {
   if (p.category_id === 1) return true
+  const name = (p.name || '').toLowerCase()
   const cat = (p.category_name || p.category || '').toLowerCase()
-  return cat.includes('bag') || cat.includes('sling') || cat.includes('tote') || cat.includes('saddle') || p.id <= 14
+
+  if (cat.includes('bag') || cat.includes('sling') || cat.includes('tote') || cat.includes('saddle') || cat.includes('purse') || cat.includes('pouch') || cat.includes('crossbody')) return true
+  if (name.includes('bag') || name.includes('sling') || name.includes('tote') || name.includes('saddle') || name.includes('purse') || name.includes('pouch') || name.includes('crossbody') || name.includes('clutch')) return true
+  if (p.id <= 14 || (p.id >= 25 && p.id <= 33)) return true
+  return false
 }
 
 function isApparel(p: Product): boolean {
   if (p.category_id === 2) return true
+  if (isBag(p)) return false
+  const name = (p.name || '').toLowerCase()
   const cat = (p.category_name || p.category || '').toLowerCase()
-  return cat.includes('kaftan') || cat.includes('apparel') || cat.includes('shrug') || cat.includes('jacket') || (p.id >= 15 && p.id <= 22)
+
+  if (cat.includes('kaftan') || cat.includes('apparel') || cat.includes('shrug') || cat.includes('jacket') || cat.includes('clothing') || cat.includes('dress')) return true
+  if (name.includes('kaftan') || name.includes('shrug') || name.includes('jacket') || name.includes('clothing') || name.includes('dress') || name.includes('cape')) return true
+  if (p.id >= 15 && p.id <= 22) return true
+  return false
 }
 
 function isDecor(p: Product): boolean {
+  // Bags and Apparel must NEVER appear under Home Decor
+  if (isBag(p) || isApparel(p)) return false
   if (p.category_id === 3) return true
+  const name = (p.name || '').toLowerCase()
   const cat = (p.category_name || p.category || '').toLowerCase()
-  return cat.includes('decor') || cat.includes('cushion') || cat.includes('runner') || cat.includes('home') || p.id >= 23
+
+  if (cat.includes('decor') || cat.includes('cushion') || cat.includes('runner') || cat.includes('home') || cat.includes('pillow') || cat.includes('hanging')) return true
+  if (name.includes('cushion') || name.includes('runner') || name.includes('pillow') || name.includes('hanging') || name.includes('placemat') || name.includes('decor')) return true
+  if (p.id === 23 || p.id === 24) return true
+  return false
 }
 
 function isLifestyleImg(url: string | null | undefined): boolean {
@@ -167,12 +185,38 @@ function parseCategoryParam(param: string | null): 'all' | 'bags' | 'apparel' | 
   return 'all'
 }
 
+type SortOption = 'default' | 'price-asc' | 'price-desc'
+
+const SORT_OPTIONS: { value: SortOption; label: string }[] = [
+  { value: 'default', label: 'Original Order' },
+  { value: 'price-asc', label: 'Price: Low to High' },
+  { value: 'price-desc', label: 'Price: High to Low' },
+]
+
 export default function Shop() {
   const { products: allProducts, loading, error, refresh } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const categoryParam = searchParams.get('category')
   const [filter, setFilter] = useState<'all' | 'bags' | 'apparel' | 'decor'>(() => parseCategoryParam(categoryParam))
+  const [sortBy, setSortBy] = useState<SortOption>('default')
+  const [sortOpen, setSortOpen] = useState(false)
+  const sortRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown menu on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (sortRef.current && !sortRef.current.contains(e.target as Node)) {
+        setSortOpen(false)
+      }
+    }
+    if (sortOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [sortOpen])
 
   // Synchronize active filter tab whenever URL search params change
   useEffect(() => {
@@ -213,12 +257,24 @@ export default function Shop() {
     { key: 'decor' as const,   label: 'Home Decor & Cushions', count: decorList.length },
   ]
 
-  const newProducts = allProducts.filter(p => p.tag === 'New')
+  const getPriceValue = (p: Product): number => {
+    if (typeof p.numeric_price === 'number' && !isNaN(p.numeric_price) && p.numeric_price > 0) {
+      return p.numeric_price
+    }
+    const num = parseFloat(String(p.price || '0').replace(/[^\d.]/g, ''))
+    return isNaN(num) ? 0 : num
+  }
+
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sortBy === 'price-asc') return getPriceValue(a) - getPriceValue(b)
+    if (sortBy === 'price-desc') return getPriceValue(b) - getPriceValue(a)
+    return 0
+  })
 
   return (
     <>
       {/* PAGE HEADER */}
-      <div style={{ paddingTop: '68px', backgroundColor: C.maroonDeep, color: C.parchment, position: 'relative', overflow: 'hidden' }}>
+      <div style={{ paddingTop: '68px', backgroundColor: C.maroonDeep, color: C.parchment, position: 'relative' }}>
         <div className="px-5 py-8 sm:px-8 md:px-20 md:py-16 pb-0 md:pb-0 relative z-10">
           <p style={{ fontFamily: B, fontSize: '0.7rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.sand, opacity: 0.6, marginBottom: '0.75rem' }}>
             <Link to="/" style={{ color: C.sand, textDecoration: 'none', opacity: 0.5 }}>Home</Link>
@@ -245,34 +301,110 @@ export default function Shop() {
           </div>
         </div>
 
-        {/* FILTER TABS */}
-        <div className="shop-filter-bar no-scrollbar px-4 sm:px-8 md:px-20 flex gap-0 items-stretch overflow-x-auto border-t border-[rgba(242,232,208,0.08)] flex-nowrap">
-          {tabs.map(tab => (
-            <button key={tab.key} onClick={() => handleTabClick(tab.key)}
-              style={{ fontFamily: B, fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '1rem 1.5rem', background: 'none', border: 'none', cursor: 'pointer', color: filter === tab.key ? C.sand : C.parchment, borderBottom: filter === tab.key ? `2px solid ${C.sand}` : '2px solid transparent', opacity: filter === tab.key ? 1 : 0.4, transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.6rem', whiteSpace: 'nowrap', flexShrink: 0 }}>
-              {tab.label}
-              <span style={{ fontFamily: B, fontSize: '0.6rem', backgroundColor: filter === tab.key ? C.sand : 'rgba(242,232,208,0.15)', color: filter === tab.key ? C.maroonDeep : C.parchment, padding: '0.15rem 0.4rem', borderRadius: '2px' }}>{tab.count}</span>
-            </button>
-          ))}
-          <div className="hidden sm:flex ml-auto items-center pr-2">
-            <span style={{ fontFamily: B, fontSize: '0.68rem', opacity: 0.35, color: C.parchment, whiteSpace: 'nowrap' }}>{products.length} items</span>
+        {/* FILTER TABS & SORT CONTROLS */}
+        <div className="border-t border-[rgba(242,232,208,0.08)] px-4 sm:px-8 md:px-20 flex flex-col md:flex-row md:items-center md:justify-between">
+          {/* Category Tabs: smooth horizontal scroll container */}
+          <div className="flex overflow-x-auto no-scrollbar gap-2 py-2 w-full md:w-auto flex-nowrap -mx-4 px-4 sm:mx-0 sm:px-0">
+            {tabs.map(tab => (
+              <button key={tab.key} onClick={() => handleTabClick(tab.key)}
+                style={{ fontFamily: B, fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '0.75rem 1.15rem', background: 'none', border: 'none', cursor: 'pointer', color: filter === tab.key ? C.sand : C.parchment, borderBottom: filter === tab.key ? `2px solid ${C.sand}` : '2px solid transparent', opacity: filter === tab.key ? 1 : 0.4, transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '0.5rem', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                {tab.label}
+                <span style={{ fontFamily: B, fontSize: '0.6rem', backgroundColor: filter === tab.key ? C.sand : 'rgba(242,232,208,0.15)', color: filter === tab.key ? C.maroonDeep : C.parchment, padding: '0.15rem 0.4rem', borderRadius: '2px' }}>{tab.count}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Dedicated Toolbar Row: Decoupled from scroll, always visible */}
+          <div className="flex items-center justify-between px-0 py-2 w-full md:w-auto md:py-0 border-t md:border-t-0 border-[rgba(242,232,208,0.08)] gap-3">
+            <span style={{ fontFamily: B, fontSize: '0.72rem', opacity: 0.5, color: C.parchment, whiteSpace: 'nowrap' }}>
+              {sortedProducts.length} {sortedProducts.length === 1 ? 'item' : 'items'}
+            </span>
+
+            {/* Anchor Container: wrapping both button and dropdown menu */}
+            <div ref={sortRef} className="relative inline-block flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setSortOpen(v => !v)}
+                aria-haspopup="listbox"
+                aria-expanded={sortOpen}
+                aria-label="Sort products"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs transition-colors rounded-sm"
+                style={{
+                  fontFamily: B,
+                  backgroundColor: sortOpen ? 'rgba(242,232,208,0.18)' : 'rgba(242,232,208,0.08)',
+                  color: C.parchment,
+                  border: '1px solid rgba(212,187,138,0.3)',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <span style={{ color: C.sand, opacity: 0.85, textTransform: 'uppercase', fontSize: '0.68rem', letterSpacing: '0.08em' }}>
+                  Sort:
+                </span>
+                <span>
+                  {SORT_OPTIONS.find(o => o.value === sortBy)?.label || 'Original Order'}
+                </span>
+                <svg
+                  className={`w-3 h-3 ml-0.5 transition-transform duration-200 ${sortOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Dropdown Menu Placement: directly anchored to button bounds */}
+              {sortOpen && (
+                <div
+                  role="listbox"
+                  aria-label="Sort options"
+                  className="absolute right-0 top-full mt-2 z-50 min-w-[180px] shadow-2xl overflow-hidden border border-[rgba(212,187,138,0.25)] rounded-sm"
+                  style={{
+                    backgroundColor: '#26060c',
+                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5)',
+                  }}
+                >
+                  {SORT_OPTIONS.map(opt => {
+                    const isSelected = sortBy === opt.value
+                    return (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        role="option"
+                        aria-selected={isSelected}
+                        onClick={() => {
+                          setSortBy(opt.value)
+                          setSortOpen(false)
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-xs transition-colors flex items-center justify-between"
+                        style={{
+                          fontFamily: B,
+                          color: isSelected ? C.sand : C.parchment,
+                          backgroundColor: isSelected ? 'rgba(212,187,138,0.12)' : 'transparent',
+                          border: 'none',
+                          borderBottom: '1px solid rgba(242,232,208,0.06)',
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap',
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isSelected) e.currentTarget.style.backgroundColor = 'rgba(242,232,208,0.06)'
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isSelected) e.currentTarget.style.backgroundColor = 'transparent'
+                        }}
+                      >
+                        <span>{opt.label}</span>
+                        {isSelected && <span style={{ color: C.sand, fontSize: '0.75rem' }}>✓</span>}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-
-      {/* FEATURED NEW ARRIVALS — top newest as banner if available */}
-      {newProducts.length > 0 && (
-        <div className="px-4 py-3 sm:px-8 md:px-20 flex items-center gap-4 overflow-hidden border-b border-[rgba(117,24,40,0.1)]" style={{ backgroundColor: C.fog }}>
-          <span style={{ fontFamily: B, fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', backgroundColor: C.maroon, color: C.parchment, padding: '0.3rem 0.6rem', flexShrink: 0 }}>New In</span>
-          <div className="no-scrollbar flex gap-6 sm:gap-10 overflow-x-auto">
-            {newProducts.map(p => (
-              <span key={p.id} style={{ fontFamily: D, fontStyle: 'italic', fontSize: '0.95rem', color: C.maroon, whiteSpace: 'nowrap', opacity: 0.8 }}>
-                {p.name} <span style={{ fontFamily: B, fontStyle: 'normal', fontSize: '0.78rem', color: C.maroonMid }}>{p.price}</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* PRODUCT GRID / STATES */}
       <div role="region" className="px-4 py-8 sm:px-8 sm:py-12 md:px-20 md:py-20" style={{ backgroundColor: C.parchment }}>
@@ -294,23 +426,23 @@ export default function Shop() {
           <ShopSkeleton />
         ) : (
           <>
-            {/* Featured pair — first 2 items large */}
-            {filter === 'all' && products.length >= 2 && (
+            {/* Featured pair — first 2 items large only when in original/default order */}
+            {filter === 'all' && sortBy === 'default' && sortedProducts.length >= 2 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
-                {products.slice(0, 2).map(p => (
+                {sortedProducts.slice(0, 2).map(p => (
                   <ShopCard key={p.id} product={p} tall />
                 ))}
               </div>
             )}
 
-            {/* Remaining in 3-col grid */}
+            {/* Remaining / All in 3-col grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
-              {(filter === 'all' && products.length >= 2 ? products.slice(2) : products).map((p) => (
+              {(filter === 'all' && sortBy === 'default' && sortedProducts.length >= 2 ? sortedProducts.slice(2) : sortedProducts).map((p) => (
                 <ShopCard key={p.id} product={p} />
               ))}
             </div>
 
-            {products.length === 0 && !loading && (
+            {sortedProducts.length === 0 && !loading && (
               <div style={{ textAlign: 'center', padding: '5rem 0' }}>
                 <p style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.5rem', color: C.maroon, opacity: 0.6 }}>No products currently found in this category.</p>
               </div>

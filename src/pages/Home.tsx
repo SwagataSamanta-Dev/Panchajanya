@@ -316,24 +316,32 @@ export default function Home() {
             Canvas bags, kaftans,<br />and things for the home.
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+          {/* Card 1: Canvas Bags (Vertical Stack) */}
           <Link
             to="/shop?category=canvas-bags"
-            className="group block no-underline transition-transform duration-300 hover:-translate-y-1"
+            className="group block no-underline transition-transform duration-300 hover:-translate-y-1 h-full"
             style={{ textDecoration: 'none' }}
             aria-label="Explore Canvas Bags Collection"
           >
-            <article style={{ backgroundColor: C.parchment, overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%', borderTop: `3px solid ${CATEGORIES[0].tone}` }}>
-              <div style={{ overflow: 'hidden', backgroundColor: C.sand }}>
-                <img src={cat0Img} alt={CATEGORIES[0].title} loading="lazy" width={700} height={220} className="img-zoom transition-transform duration-500 group-hover:scale-105" style={{ width: '100%', height: '220px', objectFit: 'cover', objectPosition: 'center top', display: 'block', backgroundColor: C.sand }} />
+            <article className="h-full flex flex-col overflow-hidden border border-[rgba(117,24,40,0.08)]" style={{ backgroundColor: C.parchment, borderTop: `3px solid ${CATEGORIES[0].tone}` }}>
+              <div className="relative overflow-hidden w-full h-[240px] sm:h-[260px] bg-stone-100 flex-shrink-0">
+                <img
+                  src={cat0Img}
+                  alt={CATEGORIES[0].title}
+                  loading="lazy"
+                  width={700}
+                  height={525}
+                  className="img-zoom transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover object-center"
+                />
               </div>
-              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', fontWeight: 400, color: CATEGORIES[0].tone, margin: 0 }}>{CATEGORIES[0].title}</h3>
-                    <span style={{ fontFamily: B, fontSize: '0.75rem', fontWeight: 600, color: CATEGORIES[0].tone, letterSpacing: '0.04em' }}>Explore →</span>
+                  <div className="flex justify-between items-baseline mb-2">
+                    <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.6rem', fontWeight: 400, color: CATEGORIES[0].tone, margin: 0 }}>{CATEGORIES[0].title}</h3>
+                    <span style={{ fontFamily: B, fontSize: '0.72rem', fontWeight: 600, color: CATEGORIES[0].tone, letterSpacing: '0.04em' }}>Explore →</span>
                   </div>
-                  <ul style={{ listStyle: 'none', margin: 0, padding: 0, fontFamily: B, fontSize: '0.82rem', display: 'flex', flexWrap: 'wrap', gap: '0.35rem 1.1rem', opacity: 0.6 }}>
+                  <ul style={{ listStyle: 'none', margin: 0, padding: 0, fontFamily: B, fontSize: '0.8rem', display: 'flex', flexWrap: 'wrap', gap: '0.3rem 0.8rem', opacity: 0.65 }}>
                     {CATEGORIES[0].items.map(item => <li key={item}>— {item}</li>)}
                   </ul>
                 </div>
@@ -341,48 +349,67 @@ export default function Home() {
             </article>
           </Link>
 
+          {/* Card 2: Kaftans & Jackets (Horizontal Split inside card: Portrait Photo Left, Text Right) */}
           <Link
             to="/shop?category=kaftans"
-            className="group block no-underline transition-transform duration-300 hover:-translate-y-1"
+            className="group block no-underline transition-transform duration-300 hover:-translate-y-1 h-full"
             style={{ textDecoration: 'none' }}
             aria-label="Explore Kaftans and Jackets Collection"
           >
-            <article style={{ backgroundColor: C.parchment, overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%', borderTop: `3px solid ${CATEGORIES[1].tone}` }}>
-              <div style={{ overflow: 'hidden', backgroundColor: C.sand }}>
-                <img src={cat1Img} alt={CATEGORIES[1].title} loading="lazy" width={700} height={220} className="img-zoom transition-transform duration-500 group-hover:scale-105" style={{ width: '100%', height: '220px', objectFit: 'cover', objectPosition: 'center top', display: 'block', backgroundColor: C.sand }} />
+            <article className="h-full flex flex-row overflow-hidden border border-[rgba(117,24,40,0.08)]" style={{ backgroundColor: C.parchment, borderTop: `3px solid ${CATEGORIES[1].tone}` }}>
+              <div className="relative overflow-hidden w-1/2 sm:w-[52%] h-full min-h-[280px] bg-stone-100 flex-shrink-0">
+                <img
+                  src={cat1Img}
+                  alt={CATEGORIES[1].title}
+                  loading="lazy"
+                  width={600}
+                  height={800}
+                  className="img-zoom transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover"
+                  style={{ objectPosition: 'center 15%' }}
+                />
               </div>
-              <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.75rem' }}>
-                    <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', fontWeight: 400, color: CATEGORIES[1].tone, margin: 0 }}>{CATEGORIES[1].title}</h3>
-                    <span style={{ fontFamily: B, fontSize: '0.75rem', fontWeight: 600, color: CATEGORIES[1].tone, letterSpacing: '0.04em' }}>Explore →</span>
-                  </div>
-                  <ul style={{ listStyle: 'none', margin: 0, padding: 0, fontFamily: B, fontSize: '0.82rem', display: 'flex', flexWrap: 'wrap', gap: '0.35rem 1.1rem', opacity: 0.6 }}>
-                    {CATEGORIES[1].items.map(item => <li key={item}>— {item}</li>)}
-                  </ul>
-                </div>
+              <div className="p-4 sm:p-5 flex-1 flex flex-col justify-center">
+                <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.45rem', fontWeight: 400, color: CATEGORIES[1].tone, margin: '0 0 0.75rem', lineHeight: 1.15 }}>
+                  {CATEGORIES[1].title}
+                </h3>
+                <ul style={{ listStyle: 'none', margin: '0 0 1rem', padding: 0, fontFamily: B, fontSize: '0.78rem', display: 'flex', flexDirection: 'column', gap: '0.35rem', opacity: 0.65 }}>
+                  {CATEGORIES[1].items.map(item => <li key={item}>— {item}</li>)}
+                </ul>
+                <span style={{ fontFamily: B, fontSize: '0.72rem', fontWeight: 600, color: CATEGORIES[1].tone, letterSpacing: '0.04em' }}>
+                  Explore →
+                </span>
               </div>
             </article>
           </Link>
 
+          {/* Card 3: Home Decor (Balanced Stack) */}
           <Link
             to="/shop?category=home-decor"
-            className="group col-span-1 md:col-span-2 block no-underline transition-transform duration-300 hover:-translate-y-1"
+            className="group block no-underline transition-transform duration-300 hover:-translate-y-1 h-full"
             style={{ textDecoration: 'none' }}
             aria-label="Explore Home Decor Collection"
           >
-            <article className="grid grid-cols-1 md:grid-cols-2 overflow-hidden" style={{ backgroundColor: C.parchment, borderTop: `3px solid ${CATEGORIES[2].tone}` }}>
-              <div style={{ overflow: 'hidden', backgroundColor: C.sand }}>
-                <img src={homeDecorImg} alt="Home decor" loading="lazy" width={700} height={220} className="img-zoom transition-transform duration-500 group-hover:scale-105" style={{ width: '100%', height: '220px', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+            <article className="h-full flex flex-col overflow-hidden border border-[rgba(117,24,40,0.08)]" style={{ backgroundColor: C.parchment, borderTop: `3px solid ${CATEGORIES[2].tone}` }}>
+              <div className="relative overflow-hidden w-full h-[240px] sm:h-[260px] bg-stone-100 flex-shrink-0">
+                <img
+                  src={homeDecorImg}
+                  alt={CATEGORIES[2].title}
+                  loading="lazy"
+                  width={700}
+                  height={525}
+                  className="img-zoom transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover object-center"
+                />
               </div>
-              <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.75rem' }}>
-                  <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.75rem', fontWeight: 400, color: CATEGORIES[2].tone, margin: 0 }}>{CATEGORIES[2].title}</h3>
-                  <span style={{ fontFamily: B, fontSize: '0.75rem', fontWeight: 600, color: CATEGORIES[2].tone, letterSpacing: '0.04em' }}>Explore →</span>
+              <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-baseline mb-2">
+                    <h3 style={{ fontFamily: D, fontStyle: 'italic', fontSize: '1.6rem', fontWeight: 400, color: CATEGORIES[2].tone, margin: 0 }}>{CATEGORIES[2].title}</h3>
+                    <span style={{ fontFamily: B, fontSize: '0.72rem', fontWeight: 600, color: CATEGORIES[2].tone, letterSpacing: '0.04em' }}>Explore →</span>
+                  </div>
+                  <ul style={{ listStyle: 'none', margin: 0, padding: 0, fontFamily: B, fontSize: '0.8rem', display: 'flex', flexWrap: 'wrap', gap: '0.3rem 0.8rem', opacity: 0.65 }}>
+                    {CATEGORIES[2].items.map(item => <li key={item}>— {item}</li>)}
+                  </ul>
                 </div>
-                <ul style={{ listStyle: 'none', margin: 0, padding: 0, fontFamily: B, fontSize: '0.82rem', display: 'flex', flexWrap: 'wrap', gap: '0.35rem 1.1rem', opacity: 0.6 }}>
-                  {CATEGORIES[2].items.map(item => <li key={item}>— {item}</li>)}
-                </ul>
               </div>
             </article>
           </Link>

@@ -83,6 +83,13 @@ export default function Root() {
   // Close mobile menu on route change
   useEffect(() => { setMobileMenuOpen(false) }, [location.pathname])
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (isHome) {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
   return (
     <div className="site-root">
       {/* Cursor: snap dot + lagging square */}
@@ -90,7 +97,7 @@ export default function Root() {
       <div ref={squareRef} className={`cursor-square${hovering ? ' cursor-square--hover' : ''}${inverted ? ' cursor-square--invert' : ''}`} />
 
       <div role="banner" className={`site-header${opaque ? ' site-header--opaque' : ''}`}>
-        <Link to="/" className="site-logo">
+        <Link to="/" className="site-logo" onClick={handleLogoClick}>
           <img src={logoImg} alt="Panchajanya" className="site-logo__img" />
           <span className="site-logo__text">Panchajanya</span>
         </Link>
