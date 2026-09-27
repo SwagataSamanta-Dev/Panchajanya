@@ -1,8 +1,14 @@
 {
   "title": "Panchajanya",
-  "description": "Showcases handmade sustainable canvas bags with detailed product info and eco-friendly benefits, helping users find stylish, earth-conscious accessories.",
+  "description": "Discover handcrafted sustainable canvas bags, bespoke artisan creations, and ethically tailored lifestyle goods crafted by women artisans in Sonarpur, South Kolkata.",
   "robots": {
-    "index": false
+    "index": true
+  },
+  "icons": {
+    "icon": "/admin/assets/logo.jpeg?v=3"
+  },
+  "openGraph": {
+    "image": "https://a9.snumcaj.com/assets/logo.jpeg"
   },
   "accessibility": {
     "addBypassLinks": false,

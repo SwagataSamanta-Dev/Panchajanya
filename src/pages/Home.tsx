@@ -20,7 +20,6 @@ export default function Home() {
   const navigate = useNavigate()
   const SLIDES_PER_VIEW = 4
   const totalSlides = Math.max(1, Math.ceil(products.length / SLIDES_PER_VIEW))
-  const prevSlide = () => setSlide(s => (s - 1 + totalSlides) % totalSlides)
   const nextSlide = () => setSlide(s => (s + 1) % totalSlides)
 
   useEffect(() => {
@@ -74,7 +73,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-img-wrap">
-          <img src={heroImg} alt="Panchajanya artisans wearing handmade kaftans and carrying canvas bag" loading="lazy" width={900} height={1100} className="hero-img" />
+          <img src={heroImg} alt="Panchajanya artisans wearing handmade kaftans and carrying canvas bag" loading="lazy" width={900} height={1100} className="hero-img object-cover object-top" style={{ objectPosition: 'top center' }} />
         </div>
 
         {/* ── MANIFESTO + STATS strip inside hero ── */}
@@ -109,15 +108,6 @@ export default function Home() {
             <p className="carousel-eyebrow">Our Collection</p>
             <h2 className="carousel-heading">Handmade, one at a time.</h2>
           </div>
-          <div className="carousel-controls">
-            <button className="carousel-btn" onClick={prevSlide} aria-label="Previous">&#8592;</button>
-            <div className="carousel-dots">
-              {Array.from({ length: totalSlides }).map((_, i) => (
-                <button key={i} className={`carousel-dot${slide === i ? ' carousel-dot--active' : ''}`} onClick={() => setSlide(i)} aria-label={`Go to slide ${i + 1}`} />
-              ))}
-            </div>
-            <button className="carousel-btn" onClick={nextSlide} aria-label="Next">&#8594;</button>
-          </div>
         </div>
         <div className="carousel-track-outer">
           <div className="carousel-track" style={{ transform: `translateX(-${slide * 100}%)` }}>
@@ -132,8 +122,8 @@ export default function Home() {
                         loading="lazy"
                         width={320}
                         height={400}
-                        className="carousel-card__img absolute inset-0 w-full h-full object-cover"
-                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }}
+                        className="carousel-card__img absolute inset-0 w-full h-full object-cover object-top"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', zIndex: 1 }}
                         onError={(e) => {
                           const target = e.currentTarget
                           if (!target.dataset.fallbackTried) {
@@ -226,8 +216,8 @@ export default function Home() {
 
       {/* ── SOCIAL IMPACT SPLIT ── */}
       <div role="region" className="grid grid-cols-1 lg:grid-cols-2 min-h-0 lg:min-h-[560px]">
-        <div className="overflow-hidden h-[280px] sm:h-[380px] lg:h-full" style={{ backgroundColor: C.sand }}>
-          <img src={artisanImg} alt="Woman artisan at a sewing machine making canvas bags" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <div className="overflow-hidden h-[280px] sm:h-[380px] lg:h-full min-h-[280px] sm:min-h-[380px] lg:min-h-[560px]" style={{ backgroundColor: C.sand }}>
+          <img src={artisanImg} alt="Woman artisan at a sewing machine making canvas bags" loading="lazy" className="w-full h-full object-cover object-top" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
         </div>
         <div className="p-6 sm:p-10 lg:p-16 flex flex-col justify-center" style={{ backgroundColor: C.maroonDeep, color: C.parchment }}>
           <p style={{ fontFamily: B, fontSize: '1.15rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: C.sand, fontWeight: 700, marginBottom: '1.25rem', opacity: 1, lineHeight: 1.4 }}><strong>Our Impact · Sonarpur, South Kolkata</strong></p>
@@ -265,8 +255,8 @@ export default function Home() {
             loading="lazy"
             width={900}
             height={640}
-            className="transition-transform duration-700 ease-out group-hover:scale-105"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            className="transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover object-top"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }}
           />
           <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 p-3 sm:p-5 max-w-[210px] sm:max-w-[240px] shadow-lg transition-transform duration-300 ease-out group-hover:-translate-y-1" style={{ backgroundColor: C.parchment }}>
             <p style={{ fontFamily: B, fontSize: '0.78rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '0.35rem' }}>Featured · Slings</p>
@@ -332,7 +322,8 @@ export default function Home() {
                   loading="lazy"
                   width={700}
                   height={525}
-                  className="img-zoom transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover object-center"
+                  className="img-zoom transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover object-top"
+                  style={{ objectPosition: 'top center' }}
                 />
               </div>
               <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
@@ -364,8 +355,8 @@ export default function Home() {
                   loading="lazy"
                   width={600}
                   height={800}
-                  className="img-zoom transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover"
-                  style={{ objectPosition: 'center 15%' }}
+                  className="img-zoom transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover object-top"
+                  style={{ objectPosition: 'top center' }}
                 />
               </div>
               <div className="p-4 sm:p-5 flex-1 flex flex-col justify-center">
@@ -397,7 +388,8 @@ export default function Home() {
                   loading="lazy"
                   width={700}
                   height={525}
-                  className="img-zoom transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover object-center"
+                  className="img-zoom transition-transform duration-700 ease-out group-hover:scale-105 w-full h-full object-cover object-top"
+                  style={{ objectPosition: 'top center' }}
                 />
               </div>
               <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
@@ -513,7 +505,7 @@ export default function Home() {
 
       {/* ── CTA ── */}
       <div role="region" style={{ position: 'relative', overflow: 'hidden', clipPath: 'polygon(0 48px, 100% 0, 100% 100%, 0 100%)', backgroundColor: C.maroonMid, minHeight: '420px', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-        <img src="https://images.unsplash.com/photo-1663573690125-d326a87a2535?w=1400&h=420&fit=crop&auto=format" alt="Handmade canvas bag" loading="lazy" width={1400} height={420} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.18 }} />
+        <img src="https://images.unsplash.com/photo-1663573690125-d326a87a2535?w=1400&h=420&fit=crop&auto=format" alt="Handmade canvas bag" loading="lazy" width={1400} height={420} className="object-top" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', opacity: 0.18 }} />
         <div style={{ position: 'relative', zIndex: 1, padding: '6rem 2rem 5rem' }}>
           <p style={{ fontFamily: B, fontSize: '0.8rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(242,232,208,0.5)', marginBottom: '1.25rem' }}>Shop · Bundle · Share the story</p>
           <h2 style={{ fontFamily: D, fontStyle: 'italic', fontSize: 'clamp(1.75rem, 3.2vw, 3rem)', fontWeight: 400, color: C.parchment, lineHeight: 1.0, letterSpacing: '-0.03em', marginBottom: '2.5rem' }}>

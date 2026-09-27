@@ -56,12 +56,14 @@ export default function Story() {
                 key={i}
                 src={src}
                 alt={`Artisan photo ${i + 1}`}
+                className="object-top"
                 style={{
                   position: 'absolute',
                   inset: 0,
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
+                  objectPosition: 'top center',
                   display: 'block',
                   opacity: i === active ? 1 : 0,
                   transition: 'opacity 0.7s ease',
@@ -91,7 +93,7 @@ export default function Story() {
       {/* ORIGIN STORY */}
       <div role="region" className="grid grid-cols-1 lg:grid-cols-2 min-h-0 lg:min-h-[400px]">
         <div className="overflow-hidden h-[260px] sm:h-[360px] lg:h-full" style={{ backgroundColor: C.sand }}>
-          <img src={slide1} alt="Artisan at work — Sonarpur" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          <img src={slide1} alt="Artisan at work — Sonarpur" loading="lazy" className="object-top" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block' }} />
         </div>
         <div className="p-6 sm:p-10 lg:p-16 flex flex-col justify-center" style={{ backgroundColor: C.parchment }}>
           <p style={{ fontFamily: B, fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: C.maroonMid, marginBottom: '1.25rem' }}>The Beginning</p>

@@ -31,7 +31,8 @@ function ProductModal({ product, onClose }: {
           <img
             src={currentImg}
             alt={product.name}
-            className="prod-modal__img"
+            className="prod-modal__img object-cover object-top"
+            style={{ objectFit: 'cover', objectPosition: 'top center' }}
             onError={(e) => {
               const target = e.currentTarget
               if (!target.dataset.fallbackTried) {
@@ -144,7 +145,7 @@ export function ProdFlipCard({ product, style }: {
             <img
               src={frontImg}
               alt={product.name}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover object-top"
               onError={(e) => {
                 const target = e.currentTarget
                 if (!target.dataset.fallbackTried) {
@@ -156,7 +157,7 @@ export function ProdFlipCard({ product, style }: {
                   target.src = resolveProductImageUrl('1bag.png')
                 }
               }}
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 1 }}
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block', zIndex: 1 }}
             />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(61,12,23,0.55) 0%, transparent 55%)', pointerEvents: 'none', zIndex: 2 }} />
             {product.tag && (
@@ -184,7 +185,7 @@ export function ProdFlipCard({ product, style }: {
               <img
                 src={backImg}
                 alt={`${product.name} detail`}
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover object-top"
                 onError={(e) => {
                   const target = e.currentTarget
                   if (!target.dataset.fallbackTried) {
@@ -196,7 +197,7 @@ export function ProdFlipCard({ product, style }: {
                     target.src = frontImg
                   }
                 }}
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 1 }}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block', zIndex: 1 }}
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%)', pointerEvents: 'none', zIndex: 2 }} />
               <div style={{ position: 'absolute', bottom: '1rem', left: '1rem', right: '1rem', zIndex: 3 }}>
